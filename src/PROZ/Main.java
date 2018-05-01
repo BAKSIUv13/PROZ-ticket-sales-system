@@ -18,10 +18,12 @@ public class Main extends Application
     {
         //launch(args);
         System.out.println("Hello world!");
+        Model.connect("jdbc:mysql://localhost/mydb?useUnicode=true" +
+                      "&useJDBCCompliantTimezoneShift=true" +
+                      "&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL" +
+                      "" + "=false", "root", "root");
         
-        Connector.connect();
-        
-        Connector.disconnect();
+        Model.disConnect();
     }
     
     @Override
