@@ -2,6 +2,7 @@ package PROZ;
 
 import java.sql.DriverManager;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class Connector
@@ -57,4 +58,30 @@ public class Connector
             System.out.println("You cannot close null connenction");
         }
     }
+    
+    /*
+        public static void execute()
+    {
+        String sql = "INSERT INTO client (login, name, surname, city)" +
+                     "VALUES " +
+                     "(?, ?, ?, ?)";
+        try
+        {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, "Cacek");
+            statement.setString(2, "Grzegorz");
+            statement.setString(3, "Kulik");
+            statement.setString(4, "Huta Nowa");
+            
+            statement.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    
+     */
+    
 }

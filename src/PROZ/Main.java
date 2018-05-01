@@ -14,6 +14,15 @@ import javafx.stage.Stage;
 
 public class Main extends Application
 {
+    public static void main(String[] args)
+    {
+        //launch(args);
+        System.out.println("Hello world!");
+        
+        Connector.connect();
+        
+        Connector.disconnect();
+    }
     
     @Override
     public void start(Stage primaryStage) throws Exception
@@ -22,14 +31,5 @@ public class Main extends Application
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
-    }
-    
-    
-    public static void main(String[] args)
-    {
-        //launch(args);
-        System.out.println("Hello world!");
-        Connector.connect();
-        Connector.disconnect();
     }
 }
