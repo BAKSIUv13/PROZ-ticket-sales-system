@@ -1,3 +1,9 @@
+/**
+ * Ticket Sales System
+ * Bartlomiej Kulik
+ * 1 May 2018
+ */
+
 package PROZ;
 
 import javafx.application.Application;
@@ -12,7 +18,7 @@ public class Main extends Application
     @Override
     public void start(Stage primaryStage) throws Exception
     {
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("view.fxml"));
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
@@ -23,5 +29,7 @@ public class Main extends Application
     {
         //launch(args);
         System.out.println("Hello world!");
+        Connector.connect();
+        Connector.disconnect();
     }
 }
