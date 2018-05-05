@@ -4,6 +4,9 @@ import java.sql.SQLException;
 
 public class connectToMyDatabase
 {
+    /**
+     * @return model connected with my database
+     */
     public static Model getModel()
     {
         try

@@ -9,14 +9,14 @@ public class Model
 {
     private Connection connection;
     
-    public Model(String mysqlURL, String user, String password) throws
-                                                                SQLException
+    public Model(String mysqlURL, String user, String password)
+    throws SQLException
     {
         this.connection = DriverManager.getConnection(mysqlURL, user, password);
         if (this.connection == null)
         {
-            throw new SQLException("DriverManager.getConnection(mysqlURL, " +
-                                   "user, password) returns null");
+            throw new SQLException(
+                    "DriverManager.getConnection() returns null");
         }
     }
     
@@ -25,8 +25,11 @@ public class Model
      *
      * @throws SQLException when the disconnection is not possible
      */
-    public void disconnect() throws SQLException
+    public void disconnect()
+    throws SQLException
     {
         this.connection.close();
     }
+    
+    
 }
