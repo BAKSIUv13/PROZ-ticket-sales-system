@@ -2,6 +2,9 @@ package PROZ;
 
 import java.sql.SQLException;
 
+/**
+ * This class helps to create a model sends to Controller.
+ */
 public class connectToMyDatabase
 {
     /**

@@ -1,11 +1,13 @@
 /**
  * Ticket Sales System
  * Bartlomiej Kulik
- * 5 May 2018
+ * 16 May 2018
  */
-
 package PROZ;
 
+/**
+ * Starting class in Ticket Sales System.
+ */
 public class Main
 {
     public static void main(String[] args)
