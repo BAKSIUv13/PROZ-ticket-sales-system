@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 /**
  * TicketDB is a Class which helps to send a data between DataBase and
- * Model&Controller.
+ * Model&LogInView.
  */
 public class TicketDB
 {
@@ -43,8 +43,8 @@ public class TicketDB
         }
         else
         {
-            throw new SQLException("clientLogin culturalEventId is a foreign "
-                                   + "key and it cannot be null");
+            throw new SQLException("clientLogin culturalEventId is a not null"
+                                   + "foreign and it cannot be null");
         }
     }
     

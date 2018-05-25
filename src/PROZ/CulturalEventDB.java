@@ -5,7 +5,7 @@ import java.util.Date;
 
 /**
  * CulturalEventDb is a Class which helps to send a data between DataBase and
- * Model&Controller.
+ * Model&LogInView.
  */
 public class CulturalEventDB
 {
@@ -40,7 +40,7 @@ public class CulturalEventDB
         else
         {
             throw new SQLException("placeCity and placeStreet is necessary - "
-                                   + "foreign key");
+                                   + "not null foreign key");
         }
     }
     

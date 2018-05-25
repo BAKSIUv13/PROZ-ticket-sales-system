@@ -57,15 +57,8 @@ public class Model
         PreparedStatement preparedStatement = this.connection
                 .prepareStatement("INSERT INTO client "
                                   + "VALUES (?, ?, ?, ?);");
-        
-        if (client.getLogin() != null)
-        {
-            preparedStatement.setString(1, client.getLogin());
-        }
-        else
-        {
-            throw new SQLException("Primary key 'login' is null");
-        }
+    
+        preparedStatement.setString(1, client.getLogin());
         
         if (client.getName() != null)
         {
@@ -98,9 +91,9 @@ public class Model
     }
     
     /**
-     * Remove client and clients tickets form the DataBase. private - TODO
+     * Remove client and clients tickets form the DataBase. private TODO
      *
-     * @param clientLogin first argument in constructor must be given not null -
+     * @param clientLogin must be given not null -
      *                    primary key
      */
     private void removeClient(String clientLogin)
@@ -118,16 +111,17 @@ public class Model
     /**
      * Remove ticket from the DataBase.
      *
-     * @param ticketId must be given not null - primary key
+     * @param ticket first argument in constructor must be given not null -
+     *               primary key
      */
-    public void removeTicket(int ticketId)
+    public void removeTicket(TicketDB ticket)
     throws SQLException
     {
         PreparedStatement preparedStatement = this.connection
                 .prepareStatement("DELETE FROM ticket "
                                   + "WHERE idTicket = ?;");
-        
-        preparedStatement.setInt(1, ticketId);
+    
+        preparedStatement.setInt(1, ticket.getIdTicket());
         
         preparedStatement.executeUpdate();
     }
@@ -175,33 +169,26 @@ public class Model
         {
             preparedStatement.setNull(3, java.sql.Types.VARCHAR);
         }
-        
-        if (client.getLogin() != null)
-        {
-            preparedStatement.setString(4, client.getLogin());
-        }
-        else
-        {
-            throw new SQLException("Primary key 'login' is null");
-        }
+    
+        preparedStatement.setString(4, client.getLogin());
         
         preparedStatement.executeUpdate();
     }
     
     /**
-     * @param clientLogin first argument in constructor must be given not null -
-     *                    primary key
+     * @param client first argument in constructor must be given not null -
+     *               primary key
      * @return LinkedList containing tickets
      */
-    public LinkedList<TicketDB> getClientTickets(String clientLogin)
+    public LinkedList<TicketDB> getClientTickets(ClientDB client)
     throws SQLException
     {
         PreparedStatement preparedStatement = this.connection
                 .prepareStatement("SELECT * "
                                   + "FROM ticket "
                                   + "WHERE Client_login = ?;");
-        
-        preparedStatement.setString(1, clientLogin);
+    
+        preparedStatement.setString(1, client.getLogin());
         ResultSet resultSet = preparedStatement.executeQuery();
         
         LinkedList<TicketDB> tickets = new LinkedList<>();
@@ -240,11 +227,68 @@ public class Model
     }
     
     /**
-     * @param clientLogin first argument in constructor must be given not null -
-     *                    primary key
+     * @param client   first argument in constructor must be given not null -
+     *                 primary key
+     * @param password must be given not null
+     */
+    public void changePassword(ClientDB client, String password)
+    throws SQLException
+    {
+        PreparedStatement preparedStatement = this.connection
+                .prepareStatement("UPDATE client "
+                                  + "SET "
+                                  + "password = ? "
+                                  + "WHERE login = ?;");
+    
+        if (password != null)
+        {
+            preparedStatement.setInt(1, password.hashCode());
+        }
+        else
+        {
+            throw new SQLException("password is null");
+        }
+    
+        preparedStatement.setString(2, client.getLogin());
+    
+        preparedStatement.executeUpdate();
+    }
+    
+    public boolean isCorrectLogIn(String username, String password)
+    throws SQLException
+    {
+        PreparedStatement preparedStatement = this.connection
+                .prepareStatement("SELECT password "
+                                  + "FROM client "
+                                  + "WHERE login = ? ;");
+        
+        preparedStatement.setString(1, username);
+        ResultSet result = preparedStatement.executeQuery();
+        
+        if (result.next())
+        {
+            if (result.getInt(1) == password
+                    .hashCode())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    /**
+     * @param client first argument in constructor must be given not null -
+     *               primary key
      * @return number of tickets belonging to the client
      */
-    public int getNumberOfTickets(String clientLogin)
+    public int getNumberOfTickets(ClientDB client)
     throws SQLException
     {
         PreparedStatement preparedStatement = this.connection
@@ -252,8 +296,8 @@ public class Model
                                   + "FROM ticket "
                                   + "WHERE Client_login = ? "
                                   + "GROUP BY Client_login;");
-        
-        preparedStatement.setString(1, clientLogin);
+    
+        preparedStatement.setString(1, client.getLogin());
         
         ResultSet result = preparedStatement.executeQuery();
         
@@ -268,19 +312,19 @@ public class Model
     }
     
     /**
-     * @param clientLogin first argument in constructor must be given not null -
-     *                    primary key
+     * @param client first argument in constructor must be given not null -
+     *               primary key
      * @return max client ticket price
      */
-    public int getMaxTicketPrice(String clientLogin)
+    public int getMaxTicketPrice(ClientDB client)
     throws SQLException
     {
         PreparedStatement preparedStatement = this.connection
                 .prepareStatement("SELECT MAX(price) "
                                   + "FROM ticket "
                                   + "WHERE Client_login = ?;");
-        
-        preparedStatement.setString(1, clientLogin);
+    
+        preparedStatement.setString(1, client.getLogin());
         
         ResultSet result = preparedStatement.executeQuery();
         

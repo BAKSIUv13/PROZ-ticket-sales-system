@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 /**
  * ClientDB is a Class which helps to send a data between DataBase and
- * Model&Controller.
+ * Model&LogInView.
  */
 public class ClientDB
 {
