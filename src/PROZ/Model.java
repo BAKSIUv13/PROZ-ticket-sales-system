@@ -10,6 +10,7 @@ import java.util.LinkedList;
  */
 public class Model
 {
+    static public int PASSWORD_LENGTH = 4;
     private Connection connection;
     
     /**
@@ -30,6 +31,25 @@ public class Model
             throw new SQLException("DriverManager.getConnection() returns "
                                    + "null");
         }
+    }
+    
+    /**
+     * @return model connected to the DataBase. If any problems, getModel()
+     * returns null
+     */
+    static Model getModel()
+    {
+        Model model = null;
+        try
+        {
+            model = new Model();
+        }
+        catch (SQLException ex)
+        {
+            return null;
+        }
+        
+        return model;
     }
     
     /**
@@ -56,8 +76,8 @@ public class Model
     {
         PreparedStatement preparedStatement = this.connection
                 .prepareStatement("INSERT INTO client "
-                                  + "VALUES (?, ?, ?, ?);");
-    
+                                  + "VALUES (?, ?, ?, ?, ?);");
+        
         preparedStatement.setString(1, client.getLogin());
         
         if (client.getName() != null)
@@ -86,6 +106,8 @@ public class Model
         {
             preparedStatement.setNull(4, java.sql.Types.VARCHAR);
         }
+    
+        preparedStatement.setNull(5, Types.INTEGER);
         
         preparedStatement.executeUpdate();
     }
@@ -338,5 +360,28 @@ public class Model
         }
     }
     
+    /**
+     * @return true, if client is in the DataBase
+     */
+    public boolean isClient(ClientDB client)
+    throws SQLException
+    {
+        PreparedStatement preparedStatement = this.connection
+                .prepareStatement("SELECT login "
+                                  + "FROM client "
+                                  + "WHERE login = ? ;");
+        
+        preparedStatement.setString(1, client.getLogin());
+        ResultSet result = preparedStatement.executeQuery();
+        
+        if (result.next())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     
 }

@@ -18,12 +18,10 @@
                    onKeyPressed="#logInEnterAction"/>
         <PasswordField fx:id="password" layoutX="65.0" layoutY="213.0"
                        onKeyPressed="#logInEnterAction"/>
-        <Button fx:id="signUp" layoutX="156.0" layoutY="257.0"
-                mnemonicParsing="false" onAction="#signUpAction"
-                text="Sign Up"/>
-        <Button fx:id="signIn" layoutX="65.0" layoutY="257.0"
-                mnemonicParsing="false" onAction="#signInAction"
-                text="Sign In"/>
+        <Button layoutX="156.0" layoutY="257.0" mnemonicParsing="false"
+                onAction="#signUpAction" text="Sign Up"/>
+        <Button layoutX="65.0" layoutY="257.0" mnemonicParsing="false"
+                onAction="#signInAction" text="Sign In"/>
         <Label layoutX="195.0" layoutY="429.0" text="Bartlomiej Kulik">
             <font>
                 <Font size="10.0"/>

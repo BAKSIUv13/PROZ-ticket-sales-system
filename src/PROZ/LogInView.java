@@ -7,7 +7,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -26,22 +25,13 @@ import java.util.ResourceBundle;
 public class LogInView
         implements Initializable
 {
+    @FXML private TextField login;
+    
+    @FXML private PasswordField password;
+    
+    @FXML private Label signInFailed;
+    
     private Model model;
-    
-    @FXML
-    private TextField login;
-    
-    @FXML
-    private PasswordField password;
-    
-    @FXML
-    private Button signIn;
-    
-    @FXML
-    private Button signUp;
-    
-    @FXML
-    private Label signInFailed;
     
     /**
      * Initialize model before GUI start.
@@ -49,24 +39,7 @@ public class LogInView
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        try
-        {
-            this.model = new Model();
-            testModel();
-        }
-        catch (SQLException ex)
-        {
-            System.out.println("Problem with connection to MySQL. Exception "
-                               + "message: ");
-            System.out.println(ex.getMessage());
-            System.exit(-1);
-        }
-    }
-    
-    private void testModel()
-    throws SQLException
-    {
-    
+        this.model = Model.getModel();
     }
     
     /**
@@ -79,7 +52,7 @@ public class LogInView
             if (this.model.isCorrectLogIn(this.login.getText(),
                     this.password.getText()))
             {
-                // change stage
+                // TODO change stage
                 this.signInFailed.setVisible(false);
             }
             else
@@ -115,6 +88,5 @@ public class LogInView
         window.setScene(newScene);
         window.show();
     }
-    
     
 }

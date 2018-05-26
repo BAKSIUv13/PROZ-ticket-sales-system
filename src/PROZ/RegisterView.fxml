@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="450.0" prefWidth="278.0"
@@ -10,30 +11,44 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="PROZ.RegisterView">
     <children>
-        <Button layoutX="206.0" layoutY="411.0" mnemonicParsing="false"
-                onAction="#signUpAction" text="Sign Up"/>
+        <Button fx:id="signUp" layoutX="206.0" layoutY="411.0"
+                mnemonicParsing="false" onAction="#signUpAction"
+                text="Sign Up"/>
         <VBox prefHeight="301.0" prefWidth="278.0" spacing="8.0">
             <padding>
                 <Insets bottom="32.0" left="32.0" right="32.0" top="96.0"/>
             </padding>
             <children>
-                <TextField promptText="username*"/>
-                <PasswordField promptText="password*"/>
-                <PasswordField promptText="enter the password again*"/>
-                <TextField promptText="name"/>
-                <TextField promptText="surname"/>
-                <TextField promptText="cty"/>
+                <TextField fx:id="username" onKeyPressed="#signUpEnterAction"
+                           promptText="username*"/>
+                <PasswordField fx:id="password"
+                               onKeyPressed="#signUpEnterAction"
+                               promptText="password*"/>
+                <PasswordField fx:id="passwordAgain"
+                               onKeyPressed="#signUpEnterAction"
+                               promptText="enter the password again*"/>
+                <TextField fx:id="name" onKeyPressed="#signUpEnterAction"
+                           promptText="name"/>
+                <TextField fx:id="surname" onKeyPressed="#signUpEnterAction"
+                           promptText="surname"/>
+                <TextField fx:id="city" onKeyPressed="#signUpEnterAction"
+                           promptText="cty"/>
             </children>
         </VBox>
         <Label layoutX="14.0" layoutY="310.0"
                text="* You must complete these fields" textFill="#838383"/>
-        <Label layoutX="80.0" layoutY="394.0" text="username is necessary"
-               textFill="RED" visible="false"/>
-        <Label layoutX="81.0" layoutY="394.0" text="password is necessary"
-               textFill="RED" visible="false"/>
-        <Label layoutX="65.0" layoutY="394.0" text="passwords are not the same"
-               textFill="RED" visible="false"/>
-        <Label layoutX="93.0" layoutY="394.0" text="username is busy"
-               textFill="RED" visible="false"/>
+        <BorderPane layoutX="37.0" layoutY="337.0" prefHeight="61.0"
+                    prefWidth="214.0">
+            <center>
+                <Label fx:id="signUpFailed" alignment="CENTER"
+                       textFill="#b90000" BorderPane.alignment="CENTER"/>
+            </center>
+        </BorderPane>
+        <Button fx:id="goBack" layoutX="14.0" layoutY="411.0"
+                mnemonicParsing="false" onAction="#goBackAction"
+                text="Go back"/>
+        <Label fx:id="signUpOK" layoutX="59.0" layoutY="390.0"
+               text="Signed Up. Go back and Sign In!" textFill="#6bd700"
+               visible="false"/>
     </children>
 </AnchorPane>
