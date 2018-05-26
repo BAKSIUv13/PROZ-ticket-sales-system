@@ -37,18 +37,15 @@
         </VBox>
         <Label layoutX="14.0" layoutY="310.0"
                text="* You must complete these fields" textFill="#838383"/>
-        <BorderPane layoutX="37.0" layoutY="337.0" prefHeight="61.0"
-                    prefWidth="214.0">
-            <center>
-                <Label fx:id="signUpFailed" alignment="CENTER"
-                       textFill="#b90000" BorderPane.alignment="CENTER"/>
-            </center>
-        </BorderPane>
         <Button fx:id="goBack" layoutX="14.0" layoutY="411.0"
                 mnemonicParsing="false" onAction="#goBackAction"
                 text="Go back"/>
-        <Label fx:id="signUpOK" layoutX="59.0" layoutY="390.0"
-               text="Signed Up. Go back and Sign In!" textFill="#6bd700"
-               visible="false"/>
+        <BorderPane layoutX="39.0" layoutY="327.0" prefHeight="76.0"
+                    prefWidth="200.0">
+            <center>
+                <Label fx:id="signUpLabel" alignment="CENTER"
+                       contentDisplay="CENTER" BorderPane.alignment="CENTER"/>
+            </center>
+        </BorderPane>
     </children>
 </AnchorPane>

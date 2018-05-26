@@ -12,6 +12,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
@@ -21,8 +22,7 @@ import java.sql.SQLException;
  */
 public class RegisterView
 {
-    @FXML Label signUpFailed;
-    @FXML Label signUpOK;
+    @FXML Label signUpLabel;
     @FXML Button signUp;
     @FXML Button goBack;
     @FXML TextField login;
@@ -48,6 +48,7 @@ public class RegisterView
         // set model in new controller
         LogInView logInViewController = (LogInView) fxmlLoader.getController();
         logInViewController.setModel(this.model);
+        logInViewController.setLogin(this.login.getText());
         
         // set new stage parameters
         Stage window = (Stage) ((Node) event.getSource()).getScene()
@@ -60,19 +61,21 @@ public class RegisterView
      */
     public void signUpAction()
     {
-        this.signUpFailed.setText(""); // clear message
+        this.signUpLabel.setText(""); // clear message
         
         if (this.login.getText().equals(""))
         {
-            this.signUpFailed.setText("Empty login field.");
+            this.signUpLabel.setTextFill(Color.web("#b90000"));
+            this.signUpLabel.setText("Empty login field.");
         }
         else if (!isClient(createClient(this.login.getText())))
         {
             if (this.password.getText().length() < this.model.PASSWORD_LENGTH)
             {
-                this.signUpFailed.setText("Minimum " +
-                                          this.model.PASSWORD_LENGTH +
-                                          " characters");
+                this.signUpLabel.setTextFill(Color.web("#b90000"));
+                this.signUpLabel.setText("Minimum " +
+                                         this.model.PASSWORD_LENGTH +
+                                         " characters");
             }
             else if (this.password.getText().equals(
                     this.passwordAgain.getText()))
@@ -83,18 +86,20 @@ public class RegisterView
                 
                 addClient(clientDB);
                 changePassword(clientDB, this.password.getText());
-                
-                this.signUpFailed.setText("");
-                this.signUpOK.setVisible(true);
+    
+                this.signUpLabel.setTextFill(Color.web("#6bd700"));
+                this.signUpLabel.setText("Signed Up!");
             }
             else
             {
-                this.signUpFailed.setText("Different passwords");
+                this.signUpLabel.setTextFill(Color.web("#b90000"));
+                this.signUpLabel.setText("Different passwords");
             }
         }
         else
         {
-            this.signUpFailed.setText("Client with login: " + this.login
+            this.signUpLabel.setTextFill(Color.web("#b90000"));
+            this.signUpLabel.setText("Client with login: " + this.login
                     .getText() + " exist");
         }
     }

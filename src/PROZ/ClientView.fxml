@@ -93,10 +93,6 @@
                                        promptText="current password"/>
                         <PasswordField fx:id="newPassword"
                                        promptText="new password"/>
-                        <Label fx:id="passwordChanged" alignment="CENTER"
-                               prefHeight="17.0" prefWidth="224.0"
-                               text="Password changed!" textFill="#6bd700"
-                               visible="false"/>
                         <Label fx:id="passwordProblem" alignment="CENTER"
                                contentDisplay="CENTER" prefHeight="1.0"
                                prefWidth="204.0" textFill="#b90000"/>

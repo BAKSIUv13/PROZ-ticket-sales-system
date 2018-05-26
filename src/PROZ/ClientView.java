@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
@@ -22,7 +23,6 @@ public class ClientView
     @FXML private TextField city;
     @FXML private PasswordField currentPassword;
     @FXML private PasswordField newPassword;
-    @FXML private Label passwordChanged;
     @FXML private Label passwordProblem;
     
     private Model model;
@@ -61,7 +61,6 @@ public class ClientView
     public void changePassword(Event event)
     {
         this.passwordProblem.setText("");
-        this.passwordChanged.setVisible(false);
         
         String currentPassword = this.currentPassword.getText();
         String newPassword = this.newPassword.getText();
@@ -77,12 +76,13 @@ public class ClientView
             {
                 ViewMethods.exceptionHandler(ex);
             }
-            
-            this.passwordProblem.setText("");
-            this.passwordChanged.setVisible(true);
+    
+            this.passwordProblem.setTextFill(Color.web("#6bd700"));
+            this.passwordProblem.setText("Password changed");
         }
         else
         {
+            this.passwordProblem.setTextFill(Color.web("#b90000"));
             this.passwordProblem.setText("Incorrect current password");
         }
     }
