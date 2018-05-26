@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -21,22 +22,31 @@ public class Main
 {
     public static void main(String[] args)
     {
-        launch(args); // JavaFX
+        launch(args);
     }
     
     /**
      * JavaFX start method.
      */
-    @Override
-    public void start(Stage primaryStage)
+    @Override public void start(Stage primaryStage)
     throws Exception
     {
-        // connect with LogInView.fxml
-        Parent root = FXMLLoader.load(getClass().getResource("LogInView.fxml"));
+        Model model = new Model();
+    
+        // get root
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Parent root = fxmlLoader.load(
+                getClass().getResource("LogInView.fxml").openStream());
+    
+        // set model in new controller
+        LogInView logInViewController = (LogInView) fxmlLoader.getController();
+        logInViewController.setModel(model);
+        
         // set stage parameters
         primaryStage.setTitle("Ticket Sales System");
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
+        primaryStage.getIcons().add(new Image("PROZ/icon.jpg"));
         // show first stage
         primaryStage.show();
     }

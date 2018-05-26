@@ -5,12 +5,14 @@ import java.sql.SQLException;
 /**
  * ClientDB is a Class which helps to send a data between DataBase and
  * Model&LogInView.
+ *
+ * @author BAKSIUv13
  */
 public class ClientDB
 {
     private String login;
     private String name;
-    private String surname;
+    private String surName;
     private String city;
     
     public ClientDB(String login, String name, String surname,
@@ -27,7 +29,7 @@ public class ClientDB
                                    + "null");
         }
         this.name = name;
-        this.surname = surname;
+        this.surName = surname;
         this.city = city;
     }
     
@@ -41,9 +43,9 @@ public class ClientDB
         return this.name;
     }
     
-    public String getSurname()
+    public String getSurName()
     {
-        return this.surname;
+        return this.surName;
     }
     
     public String getCity()

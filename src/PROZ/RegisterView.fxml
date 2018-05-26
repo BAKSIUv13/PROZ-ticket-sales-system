@@ -19,8 +19,8 @@
                 <Insets bottom="32.0" left="32.0" right="32.0" top="96.0"/>
             </padding>
             <children>
-                <TextField fx:id="username" onKeyPressed="#signUpEnterAction"
-                           promptText="username*"/>
+                <TextField fx:id="login" onKeyPressed="#signUpEnterAction"
+                           promptText="login*"/>
                 <PasswordField fx:id="password"
                                onKeyPressed="#signUpEnterAction"
                                promptText="password*"/>
@@ -29,7 +29,7 @@
                                promptText="enter the password again*"/>
                 <TextField fx:id="name" onKeyPressed="#signUpEnterAction"
                            promptText="name"/>
-                <TextField fx:id="surname" onKeyPressed="#signUpEnterAction"
+                <TextField fx:id="surName" onKeyPressed="#signUpEnterAction"
                            promptText="surname"/>
                 <TextField fx:id="city" onKeyPressed="#signUpEnterAction"
                            promptText="cty"/>

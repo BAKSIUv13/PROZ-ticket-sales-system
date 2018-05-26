@@ -7,10 +7,19 @@ import java.util.LinkedList;
  * This class is a main class responsible for data.
  * It helps connect to the database, disconnect to the database and
  * provides methods to modify the database.
+ *
+ * @author BAKSIUv13
  */
 public class Model
 {
-    static public int PASSWORD_LENGTH = 4;
+    static final public int PASSWORD_LENGTH = 4;
+    static private int counter; // only getter...
+    
+    static
+    {
+        counter = 0;
+    }
+    
     private Connection connection;
     
     /**
@@ -31,26 +40,16 @@ public class Model
             throw new SQLException("DriverManager.getConnection() returns "
                                    + "null");
         }
+    
+        ++counter;
     }
     
-    /**
-     * @return model connected to the DataBase. If any problems, getModel()
-     * returns null
-     */
-    static Model getModel()
+    public static int getCounter()
     {
-        Model model = null;
-        try
-        {
-            model = new Model();
-        }
-        catch (SQLException ex)
-        {
-            return null;
-        }
-        
-        return model;
+        return counter;
     }
+    
+    // Specific model methods below
     
     /**
      * Disconnecting with the database.
@@ -62,8 +61,6 @@ public class Model
     {
         this.connection.close();
     }
-    
-    // Specific model methods below
     
     /**
      * Add new client to the DataBase. Login is a primary key.
@@ -79,8 +76,8 @@ public class Model
                                   + "VALUES (?, ?, ?, ?, ?);");
         
         preparedStatement.setString(1, client.getLogin());
-        
-        if (client.getName() != null)
+    
+        if (client.getName() != null && !client.getName().equals(""))
         {
             preparedStatement.setString(2, client.getName());
         }
@@ -88,17 +85,17 @@ public class Model
         {
             preparedStatement.setNull(2, java.sql.Types.VARCHAR);
         }
-        
-        if (client.getSurname() != null)
+    
+        if (client.getSurName() != null && !client.getSurName().equals(""))
         {
-            preparedStatement.setString(3, client.getSurname());
+            preparedStatement.setString(3, client.getSurName());
         }
         else
         {
             preparedStatement.setNull(3, java.sql.Types.VARCHAR);
         }
-        
-        if (client.getCity() != null)
+    
+        if (client.getCity() != null && !client.getCity().equals(""))
         {
             preparedStatement.setString(4, client.getCity());
         }
@@ -113,19 +110,23 @@ public class Model
     }
     
     /**
-     * Remove client and clients tickets form the DataBase. private TODO
-     *
-     * @param clientLogin must be given not null -
-     *                    primary key
+     * Remove client and clients tickets form the DataBase.
      */
-    private void removeClient(String clientLogin)
+    public void removeClient(ClientDB client)
     throws SQLException
     {
+        LinkedList<TicketDB> clientTickets = getClientTickets(client);
+    
+        for (TicketDB ticket : clientTickets)
+        {
+            removeTicket(ticket);
+        }
+        
         PreparedStatement preparedStatement = this.connection
                 .prepareStatement("DELETE FROM client "
                                   + "WHERE login = ?;");
-        
-        preparedStatement.setString(1, clientLogin);
+    
+        preparedStatement.setString(1, client.getLogin());
         
         preparedStatement.executeUpdate();
     }
@@ -164,8 +165,8 @@ public class Model
                                   + "surname = ?, "
                                   + "city = ? "
                                   + "WHERE login = ?;");
-        
-        if (client.getName() != null)
+    
+        if (client.getName() != null && !client.getName().equals(""))
         {
             preparedStatement.setString(1, client.getName());
         }
@@ -173,17 +174,17 @@ public class Model
         {
             preparedStatement.setNull(1, java.sql.Types.VARCHAR);
         }
-        
-        if (client.getSurname() != null)
+    
+        if (client.getSurName() != null && !client.getSurName().equals(""))
         {
-            preparedStatement.setString(2, client.getSurname());
+            preparedStatement.setString(2, client.getSurName());
         }
         else
         {
             preparedStatement.setNull(2, java.sql.Types.VARCHAR);
         }
-        
-        if (client.getCity() != null)
+    
+        if (client.getCity() != null && !client.getCity().equals(""))
         {
             preparedStatement.setString(3, client.getCity());
         }
@@ -383,5 +384,4 @@ public class Model
             return false;
         }
     }
-    
 }

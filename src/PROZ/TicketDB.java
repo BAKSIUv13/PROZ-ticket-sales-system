@@ -5,6 +5,8 @@ import java.sql.SQLException;
 /**
  * TicketDB is a Class which helps to send a data between DataBase and
  * Model&LogInView.
+ *
+ * @author BAKSIUv13
  */
 public class TicketDB
 {

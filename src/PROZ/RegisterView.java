@@ -1,9 +1,8 @@
 package PROZ;
 
-import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,73 +14,59 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.net.URL;
 import java.sql.SQLException;
-import java.util.ResourceBundle;
 
+/**
+ * @author BAKSIUv13
+ */
 public class RegisterView
-        implements Initializable
 {
     @FXML Label signUpFailed;
     @FXML Label signUpOK;
     @FXML Button signUp;
     @FXML Button goBack;
-    @FXML TextField username;
+    @FXML TextField login;
     @FXML PasswordField password;
     @FXML PasswordField passwordAgain;
     @FXML TextField name;
-    @FXML TextField surname;
+    @FXML TextField surName;
     @FXML TextField city;
     
     private Model model;
     
-    private void testModel()
-    throws SQLException
+    /**
+     * Go back to LogInView.
+     */
+    public void goBackAction(Event event)
+    throws Exception
     {
-    
-    }
-    
-    @Override public void initialize(URL location, ResourceBundle resources)
-    {
-        this.model = Model.getModel();
-        try
-        {
-            testModel();
-        }
-        catch (SQLException ex)
-        {
-            System.out.println("testModel. Exception "
-                               + "message: ");
-            System.out.println(ex.getMessage());
-            System.exit(-1);
-        }
-    }
-    
-    public void goBackAction(ActionEvent event)
-    throws IOException
-    {
-        Parent root = FXMLLoader.load(
-                getClass().getResource("LogInView.fxml"));
-        Scene newScene = new Scene(root);
+        // get root
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Parent root = fxmlLoader.load(
+                getClass().getResource("LogInView.fxml").openStream());
         
-        //This line gets the Stage information
+        // set model in new controller
+        LogInView logInViewController = (LogInView) fxmlLoader.getController();
+        logInViewController.setModel(this.model);
+        
+        // set new stage parameters
         Stage window = (Stage) ((Node) event.getSource()).getScene()
                                                          .getWindow();
-        
-        window.setScene(newScene);
-        window.show();
+        window.setScene(new Scene(root));
     }
     
+    /**
+     * It try sign up a user.
+     */
     public void signUpAction()
     {
         this.signUpFailed.setText(""); // clear message
-    
-        if (this.username.getText().equals(""))
+        
+        if (this.login.getText().equals(""))
         {
-            this.signUpFailed.setText("Empty username field.");
+            this.signUpFailed.setText("Empty login field.");
         }
-        else if (!isClient(createClient(this.username.getText())))
+        else if (!isClient(createClient(this.login.getText())))
         {
             if (this.password.getText().length() < this.model.PASSWORD_LENGTH)
             {
@@ -92,13 +77,13 @@ public class RegisterView
             else if (this.password.getText().equals(
                     this.passwordAgain.getText()))
             {
-                ClientDB clientDB = createClient(this.username.getText(),
-                        this.name.getText(), this.surname.getText(),
+                ClientDB clientDB = createClient(this.login.getText(),
+                        this.name.getText(), this.surName.getText(),
                         this.city.getText());
-            
+                
                 addClient(clientDB);
                 changePassword(clientDB, this.password.getText());
-            
+                
                 this.signUpFailed.setText("");
                 this.signUpOK.setVisible(true);
             }
@@ -109,11 +94,14 @@ public class RegisterView
         }
         else
         {
-            this.signUpFailed.setText("Client with username: " + this.username
+            this.signUpFailed.setText("Client with login: " + this.login
                     .getText() + " exist");
         }
     }
     
+    /**
+     * It try sign up a user.
+     */
     public void signUpEnterAction(KeyEvent event)
     {
         if (event.getCode().equals(KeyCode.ENTER))
@@ -122,13 +110,15 @@ public class RegisterView
         }
     }
     
+    // model functions packaged in error display
+    
     private boolean isClient(ClientDB client)
     {
         boolean isClient = false;
         try
         {
             isClient = this.model.isClient(
-                    new ClientDB(this.username.getText(), null, null,
+                    new ClientDB(this.login.getText(), null, null,
                             null));
         }
         catch (SQLException ex)
@@ -195,14 +185,9 @@ public class RegisterView
             ViewMethods.exceptionHandler(ex);
         }
     }
+    
+    public void setModel(Model model)
+    {
+        this.model = model;
+    }
 }
-/*
-        try
-        {
-        
-        }
-        catch (SQLException ex)
-        {
-            ViewMethods.exceptionHandler(ex);
-        }
- */

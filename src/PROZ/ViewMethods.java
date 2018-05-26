@@ -2,6 +2,9 @@ package PROZ;
 
 import javafx.scene.control.Alert;
 
+/**
+ * @author BAKSIUv13
+ */
 public class ViewMethods
 {
     static public void exceptionHandler(Throwable ex)
@@ -14,5 +17,4 @@ public class ViewMethods
         alert.showAndWait();
         System.exit(-1);
     }
-    
 }

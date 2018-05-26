@@ -15,12 +15,12 @@
             </font>
         </Label>
         <TextField fx:id="login" layoutX="65.0" layoutY="175.0"
-                   onKeyPressed="#logInEnterAction"/>
+                   onKeyPressed="#logInEnterAction" promptText="login"/>
         <PasswordField fx:id="password" layoutX="65.0" layoutY="213.0"
-                       onKeyPressed="#logInEnterAction"/>
-        <Button layoutX="156.0" layoutY="257.0" mnemonicParsing="false"
+                       onKeyPressed="#logInEnterAction" promptText="password"/>
+        <Button layoutX="65.0" layoutY="254.0" mnemonicParsing="false"
                 onAction="#signUpAction" text="Sign Up"/>
-        <Button layoutX="65.0" layoutY="257.0" mnemonicParsing="false"
+        <Button layoutX="161.0" layoutY="254.0" mnemonicParsing="false"
                 onAction="#signInAction" text="Sign In"/>
         <Label layoutX="195.0" layoutY="429.0" text="Bartlomiej Kulik">
             <font>
