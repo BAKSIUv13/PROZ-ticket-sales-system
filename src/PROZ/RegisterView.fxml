@@ -36,7 +36,7 @@
             </children>
         </VBox>
         <Label layoutX="14.0" layoutY="310.0"
-               text="* You must complete these fields" textFill="#838383"/>
+               text="* You must complete these fields" textFill="#838384"/>
         <Button fx:id="goBack" layoutX="14.0" layoutY="411.0"
                 mnemonicParsing="false" onAction="#goBackAction"
                 text="Go back"/>

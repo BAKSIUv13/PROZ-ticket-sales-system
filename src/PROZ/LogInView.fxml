@@ -22,7 +22,7 @@
                 onAction="#signUpAction" text="Sign Up"/>
         <Button layoutX="161.0" layoutY="254.0" mnemonicParsing="false"
                 onAction="#signInAction" text="Sign In"/>
-        <Label layoutX="195.0" layoutY="429.0" text="Bartlomiej Kulik">
+        <Label layoutX="195.0" layoutY="429.0" text="Bartłomiej Kulik">
             <font>
                 <Font size="10.0"/>
             </font>
