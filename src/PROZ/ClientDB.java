@@ -15,6 +15,20 @@ public class ClientDB
     private String surName;
     private String city;
     
+    public ClientDB(String login)
+    throws SQLException
+    {
+        if (login != null)
+        {
+            this.login = login;
+        }
+        else
+        {
+            throw new SQLException("login is a primary key and it cannot be "
+                                   + "null");
+        }
+    }
+    
     public ClientDB(String login, String name, String surname,
             String city)
     throws SQLException

@@ -177,4 +177,24 @@ public class ClientView
         return isCorrectPassword;
     }
     
+    public void changeSceneTicketAction(Event event)
+    throws Exception
+    {
+        // get root
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Parent root = fxmlLoader.load(
+                getClass().getResource("TicketView.fxml").openStream());
+        
+        // set model in new controller
+        TicketView ticketViewController = (TicketView) fxmlLoader
+                .getController();
+        ticketViewController.setModel(this.model);
+        ticketViewController.setLogin(this.login);
+        
+        // set new stage parameters
+        Stage window = (Stage) ((Node) event.getSource()).getScene()
+                                                         .getWindow();
+        window.setScene(new Scene(root));
+    }
+    
 }

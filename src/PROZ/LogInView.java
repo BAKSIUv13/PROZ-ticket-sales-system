@@ -65,7 +65,7 @@ public class LogInView
                 primaryStage.setScene(clientView);
                 primaryStage.setMinWidth(1024);
                 primaryStage.setMinHeight(576);
-                primaryStage.setResizable(true);
+                primaryStage.setResizable(false);
     
                 primaryStage.show();
             }

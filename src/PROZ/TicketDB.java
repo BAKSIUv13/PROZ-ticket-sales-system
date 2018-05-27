@@ -12,23 +12,21 @@ public class TicketDB
 {
     private Integer idTicket;
     private Integer price;
-    private boolean isPersonal;
+    private Boolean isPersonal;
     private String clientLogin;
     private Integer culturalEventId;
     
-    public TicketDB(Integer idTicket, Integer price, boolean isPersonal,
+    public TicketDB(Integer idTicket)
+    {
+        this.idTicket = idTicket;
+    }
+    
+    public TicketDB(Integer idTicket, Integer price, Boolean isPersonal,
             String clientLogin, Integer culturalEventId)
     throws SQLException
     {
-        if (idTicket != null)
-        {
-            this.idTicket = idTicket;
-        }
-        else
-        {
-            throw new SQLException("idTicket is a primary key and it cannot "
-                                   + "be null");
-        }
+        this.idTicket = idTicket;
+        
         if (price != null)
         {
             this.price = price;
@@ -50,6 +48,15 @@ public class TicketDB
         }
     }
     
+    public TicketDB(TicketDB ticket)
+    {
+        this.idTicket = ticket.idTicket;
+        this.price = ticket.price;
+        this.isPersonal = ticket.isPersonal;
+        this.clientLogin = ticket.clientLogin;
+        this.culturalEventId = ticket.culturalEventId;
+    }
+    
     public Integer getIdTicket()
     {
         return this.idTicket;
@@ -60,7 +67,7 @@ public class TicketDB
         return this.price;
     }
     
-    public boolean isPersonal()
+    public Boolean getIsPersonal()
     {
         return this.isPersonal;
     }

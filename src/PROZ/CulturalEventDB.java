@@ -18,6 +18,20 @@ public class CulturalEventDB
     private String placeCity;
     private String placeStreet;
     
+    public CulturalEventDB(Integer idCulturalEvent)
+    throws SQLException
+    {
+        if (idCulturalEvent != null)
+        {
+            this.idCulturalEvent = idCulturalEvent;
+        }
+        else
+        {
+            throw new SQLException("idCulturaEvent is a primary key and it "
+                                   + "cannot be null");
+        }
+    }
+    
     public CulturalEventDB(Integer idCulturalEvent, String type, Date date,
             int nrPeople, String placeCity, String placeStreet)
     throws SQLException

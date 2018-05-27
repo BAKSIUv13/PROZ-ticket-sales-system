@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0"
+            xmlns="http://javafx.com/javafx/9.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="PROZ.TicketView">
+    <top>
+        <HBox alignment="CENTER" spacing="15.0" BorderPane.alignment="CENTER">
+            <children>
+                <Button alignment="CENTER" disable="false"
+                        mnemonicParsing="false" text="Events"/>
+                <Button alignment="CENTER" disable="false"
+                        mnemonicParsing="false" text="Tickets"/>
+                <Button alignment="CENTER" mnemonicParsing="false"
+                        onAction="#changeSceneClientAction" text="Client"/>
+            </children>
+            <padding>
+                <Insets bottom="8.0" top="8.0"/>
+            </padding>
+        </HBox>
+    </top>
+    <left>
+        <VBox prefHeight="499.0" prefWidth="170.0" spacing="10.0"
+              BorderPane.alignment="CENTER">
+            <children>
+                <Button alignment="CENTER" mnemonicParsing="false"
+                        onAction="#refreshTicketsAction" prefHeight="25.0"
+                        prefWidth="187.0" text="Refresh tickets"/>
+                <Button alignment="CENTER" mnemonicParsing="false"
+                        onAction="#showPerformersAction" prefHeight="25.0"
+                        prefWidth="196.0" text="Show performers"/>
+            </children>
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
+        </VBox>
+    </left>
+    <bottom>
+        <VBox alignment="TOP_RIGHT" BorderPane.alignment="CENTER">
+            <children>
+                <Button mnemonicParsing="false" onAction="#logOutAction"
+                        text="Log Out"/>
+            </children>
+            <opaqueInsets>
+                <Insets/>
+            </opaqueInsets>
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
+        </VBox>
+    </bottom>
+    <center>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0"
+                    BorderPane.alignment="CENTER">
+            <children>
+                <TableView fx:id="ticketTable" layoutX="14.0" layoutY="14.0"
+                           prefHeight="450.0" prefWidth="250.0">
+                    <columns>
+                        <TableColumn fx:id="idTicketColumn" editable="false"
+                                     maxWidth="70.0" minWidth="70.0"
+                                     prefWidth="70.0" resizable="false"
+                                     text="Ticket Id"/>
+                        <TableColumn fx:id="priceTicketColumn" editable="false"
+                                     maxWidth="100.0" minWidth="100.0"
+                                     prefWidth="100.0" resizable="false"
+                                     text="Price"/>
+                        <TableColumn fx:id="isPersonalColumn" maxWidth="79.0"
+                                     minWidth="79.0" prefWidth="79.0"
+                                     resizable="false" text="Is Personal"/>
+                    </columns>
+                </TableView>
+                <TableView fx:id="performerTable" layoutX="295.0" layoutY="14.0"
+                           prefHeight="450.0" prefWidth="200.0">
+                    <columns>
+                        <TableColumn fx:id="performerNameColumn"
+                                     editable="false" maxWidth="199.0"
+                                     minWidth="199.0" prefWidth="199.0"
+                                     resizable="false" text="Performer Name"/>
+                    </columns>
+                </TableView>
+                <Label fx:id="nrOfTicketsLabel" layoutX="509.0" layoutY="72.0"
+                       text="Number of tickets: ">
+                    <font>
+                        <Font name="Leelawadee UI Semilight" size="24.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="maxTicketPriceLabel" layoutX="509.0"
+                       layoutY="150.0" text="Maximum price: ">
+                    <font>
+                        <Font name="Leelawadee UI Semilight" size="24.0"/>
+                    </font>
+                </Label>
+            </children>
+        </AnchorPane>
+    </center>
+</BorderPane>

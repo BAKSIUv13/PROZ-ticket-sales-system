@@ -384,4 +384,30 @@ public class Model
             return false;
         }
     }
+    
+    /**
+     * @return performers related with ticket
+     */
+    public LinkedList<PerformerDB> getPerformers(TicketDB ticketDB)
+    throws SQLException
+    {
+        PreparedStatement preparedStatement = this.connection
+                .prepareStatement("SELECT Performer_name "
+                                  + "FROM culturalevent_has_performer "
+                                  + "WHERE CulturalEvent_idCulturalEvent = "
+                                  + "(SELECT CulturalEvent_idCulturalEvent "
+                                  + "FROM ticket "
+                                  + "WHERE idTicket =  ?);");
+        
+        preparedStatement.setInt(1, ticketDB.getIdTicket());
+        ResultSet resultSet = preparedStatement.executeQuery();
+        
+        LinkedList<PerformerDB> performers = new LinkedList<>();
+        while (resultSet.next())
+        {
+            performers.add(new PerformerDB(resultSet.getString(1)));
+        }
+        
+        return performers;
+    }
 }
