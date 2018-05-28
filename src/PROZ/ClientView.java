@@ -2,13 +2,8 @@ package PROZ;
 
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
 import java.sql.SQLException;
 import java.util.Optional;
@@ -21,16 +16,23 @@ public class ClientView
     @FXML private TextField name;
     @FXML private TextField surName;
     @FXML private TextField city;
+    
     @FXML private PasswordField currentPassword;
     @FXML private PasswordField newPassword;
-    @FXML private Label passwordProblem;
+    
+    @FXML private Label passwordInfo;
+    @FXML private Label updateInfo;
     
     private Model model;
     private String login;
     
+    /**
+     * update client data
+     */
     public void updateClientAction(Event event)
     {
-        System.out.println(Model.getCounter());
+        this.updateInfo.setVisible(false);
+        
         String name = this.name.getText();
         if (name.equals(""))
         {
@@ -51,6 +53,7 @@ public class ClientView
         {
             this.model.updateClient(new ClientDB(this.login, name, surName,
                     city));
+            this.updateInfo.setVisible(true);
         }
         catch (SQLException ex)
         {
@@ -60,7 +63,7 @@ public class ClientView
     
     public void changePassword(Event event)
     {
-        this.passwordProblem.setText("");
+        this.passwordInfo.setText("");
         
         String currentPassword = this.currentPassword.getText();
         String newPassword = this.newPassword.getText();
@@ -76,45 +79,20 @@ public class ClientView
                 ViewMethods.exceptionHandler(ex);
             }
     
-            this.passwordProblem.setTextFill(Color.web("#6bd700"));
-            this.passwordProblem.setText("Password changed");
+            this.passwordInfo.setTextFill(Color.web("#6bd700"));
+            this.passwordInfo.setText("Password changed");
         }
         else
         {
-            this.passwordProblem.setTextFill(Color.web("#b90000"));
-            this.passwordProblem.setText("Incorrect current password");
+            this.passwordInfo.setTextFill(Color.web("#b90000"));
+            this.passwordInfo.setText("Incorrect current password");
         }
     }
     
     public void logOutAction(Event event)
     throws Exception
     {
-        // get root
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        Parent root = fxmlLoader.load(
-                getClass().getResource("LogInView.fxml").openStream());
-        
-        // set model in new controller
-        LogInView logInViewController = (LogInView) fxmlLoader
-                .getController();
-        logInViewController.setModel(this.model);
-        logInViewController.setLogin(login);
-        
-        // get stage
-        Stage primaryStage = (Stage) ((Node) event.getSource())
-                .getScene().getWindow();
-        primaryStage.setMinWidth(0);
-        primaryStage.setMinHeight(0);
-        primaryStage.hide();
-        
-        // set new stage
-        Scene clientView = new Scene(root);
-        primaryStage.setScene(clientView);
-        primaryStage.setMaxWidth(309);
-        primaryStage.setMaxHeight(500);
-        primaryStage.setResizable(false);
-        
-        primaryStage.show();
+        ViewMethods.logOutAction(event, this, this.login, this.model);
     }
     
     public void deleteAccountAction(Event event)
@@ -178,21 +156,7 @@ public class ClientView
     public void changeSceneTicketAction(Event event)
     throws Exception
     {
-        // get root
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        Parent root = fxmlLoader.load(
-                getClass().getResource("TicketView.fxml").openStream());
-        
-        // set model in new controller
-        TicketView ticketViewController = (TicketView) fxmlLoader
-                .getController();
-        ticketViewController.setModel(this.model);
-        ticketViewController.setLogin(this.login);
-        
-        // set new stage parameters
-        Stage window = (Stage) ((Node) event.getSource()).getScene()
-                                                         .getWindow();
-        window.setScene(new Scene(root));
+        ViewMethods.changeSceneTicketAction(event, this, this.login,
+                this.model);
     }
-    
 }

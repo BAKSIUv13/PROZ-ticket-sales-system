@@ -23,14 +23,17 @@ import java.sql.SQLException;
 public class RegisterView
 {
     @FXML Label signUpLabel;
+    
     @FXML Button signUp;
     @FXML Button goBack;
+    
     @FXML TextField login;
-    @FXML PasswordField password;
-    @FXML PasswordField passwordAgain;
     @FXML TextField name;
     @FXML TextField surName;
     @FXML TextField city;
+    
+    @FXML PasswordField password;
+    @FXML PasswordField passwordAgain;
     
     private Model model;
     
@@ -68,7 +71,7 @@ public class RegisterView
             this.signUpLabel.setTextFill(Color.web("#b90000"));
             this.signUpLabel.setText("Empty login field.");
         }
-        else if (!isClient(createClient(this.login.getText())))
+        else if (!isClient(this.login.getText()))
         {
             if (this.password.getText().length()
                 < this.model.MIN_PASSWORD_LENGTH)
@@ -118,12 +121,12 @@ public class RegisterView
     
     // model functions packaged in error display
     
-    private boolean isClient(ClientDB client)
+    private boolean isClient(String clientLogin)
     {
         boolean isClient = false;
         try
         {
-            isClient = this.model.isClient(this.login.getText());
+            isClient = this.model.isClient(clientLogin);
         }
         catch (SQLException ex)
         {
@@ -131,14 +134,6 @@ public class RegisterView
         }
         
         return isClient;
-    }
-    
-    private ClientDB createClient(String username)
-    {
-        ClientDB client = null;
-        client = new ClientDB(username);
-        
-        return client;
     }
     
     private ClientDB createClient(String login, String name, String
@@ -150,6 +145,9 @@ public class RegisterView
         return client;
     }
     
+    /**
+     * try add bew client
+     */
     private void addClient(ClientDB client)
     {
         try

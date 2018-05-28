@@ -4,16 +4,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -35,7 +30,6 @@ public class TicketView
     @FXML private TableColumn<TicketDB, Integer> idTicketColumn;
     @FXML private TableColumn<TicketDB, Integer> priceTicketColumn;
     @FXML private TableColumn<TicketDB, Boolean> isPersonalColumn;
-    
     @FXML private TableColumn<PerformerDB, String> performerNameColumn;
     
     private Model model;
@@ -45,6 +39,7 @@ public class TicketView
     {
         this.idTicketColumn.setCellValueFactory(
                 new PropertyValueFactory<>("idTicket"));
+        // must be getIdTicket() !!!
         this.priceTicketColumn.setCellValueFactory(
                 new PropertyValueFactory<>("price"));
         this.isPersonalColumn.setCellValueFactory(
@@ -57,32 +52,7 @@ public class TicketView
     public void logOutAction(Event event)
     throws Exception
     {
-        // get root
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        Parent root = fxmlLoader.load(
-                getClass().getResource("LogInView.fxml").openStream());
-        
-        // set model in new controller
-        LogInView logInViewController = (LogInView) fxmlLoader
-                .getController();
-        logInViewController.setModel(this.model);
-        logInViewController.setLogin(login);
-        
-        // get stage
-        Stage primaryStage = (Stage) ((Node) event.getSource())
-                .getScene().getWindow();
-        primaryStage.setMinWidth(0);
-        primaryStage.setMinHeight(0);
-        primaryStage.hide();
-        
-        // set new stage
-        Scene clientView = new Scene(root);
-        primaryStage.setScene(clientView);
-        primaryStage.setMaxWidth(309);
-        primaryStage.setMaxHeight(500);
-        primaryStage.setResizable(false);
-        
-        primaryStage.show();
+        ViewMethods.logOutAction(event, this, this.login, this.model);
     }
     
     public void setModel(Model model)
@@ -129,21 +99,8 @@ public class TicketView
     public void changeSceneClientAction(Event event)
     throws Exception
     {
-        // get root
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        Parent root = fxmlLoader.load(
-                getClass().getResource("ClientView.fxml").openStream());
-        
-        // set model in new controller
-        ClientView clientViewController = (ClientView) fxmlLoader
-                .getController();
-        clientViewController.setModel(this.model);
-        clientViewController.setLogin(this.login);
-        
-        // set new stage parameters
-        Stage window = (Stage) ((Node) event.getSource()).getScene()
-                                                         .getWindow();
-        window.setScene(new Scene(root));
+        ViewMethods.changeSceneClientAction(event, this, this.login,
+                this.model);
     }
     
     private ObservableList<TicketDB> getTickets()

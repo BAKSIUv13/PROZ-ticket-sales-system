@@ -72,6 +72,10 @@
                         <TextField fx:id="name" promptText="name"/>
                         <TextField fx:id="surName" promptText="surname"/>
                         <TextField fx:id="city" promptText="city"/>
+                        <Label fx:id="updateInfo" alignment="CENTER"
+                               contentDisplay="CENTER" prefHeight="17.0"
+                               prefWidth="347.0" text="Data updated!"
+                               textFill="#6bd700" visible="false"/>
                     </children>
                     <padding>
                         <Insets bottom="100.0" left="100.0" right="100.0"
@@ -94,9 +98,10 @@
                                        promptText="current password"/>
                         <PasswordField fx:id="newPassword"
                                        promptText="new password"/>
-                        <Label fx:id="passwordProblem" alignment="CENTER"
+                        <Label fx:id="passwordInfo" alignment="CENTER"
                                contentDisplay="CENTER" prefHeight="1.0"
-                               prefWidth="204.0" textFill="#b90000"/>
+                               prefWidth="204.0" textFill="#b90000"
+                               visible="false"/>
                     </children>
                 </VBox>
             </children>

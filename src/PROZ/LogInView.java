@@ -63,9 +63,9 @@ public class LogInView
                 // set new stage
                 Scene clientView = new Scene(root);
                 primaryStage.setScene(clientView);
+                primaryStage.setResizable(false);
                 primaryStage.setMinWidth(1024);
                 primaryStage.setMinHeight(576);
-                primaryStage.setResizable(false);
     
                 primaryStage.show();
             }
@@ -123,6 +123,4 @@ public class LogInView
     {
         this.login.setText(text);
     }
-    
-    
 }
