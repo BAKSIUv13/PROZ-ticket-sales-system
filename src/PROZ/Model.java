@@ -12,7 +12,7 @@ import java.util.LinkedList;
  */
 public class Model
 {
-    static final public int PASSWORD_LENGTH = 4;
+    static final public int MIN_PASSWORD_LENGTH = 4;
     static private int counter; // only getter...
     
     static
@@ -20,7 +20,7 @@ public class Model
         counter = 0;
     }
     
-    private Connection connection;
+    private Connection connection; // to MySQL server
     
     /**
      * It connect to the DataBase.
@@ -65,8 +65,8 @@ public class Model
     /**
      * Add new client to the DataBase. Login is a primary key.
      *
-     * @param client first argument in constructor must be given not null -
-     *               primary key
+     * @param client first argument in constructor must be given not null and
+     *               not empty string - primary key
      */
     public void addClient(ClientDB client)
     throws SQLException
@@ -74,9 +74,16 @@ public class Model
         PreparedStatement preparedStatement = this.connection
                 .prepareStatement("INSERT INTO client "
                                   + "VALUES (?, ?, ?, ?, ?);");
-        
-        preparedStatement.setString(1, client.getLogin());
     
+        if (client.getLogin() != null && !client.getLogin().equals(""))
+        {
+            preparedStatement.setString(1, client.getLogin());
+        }
+        else
+        {
+            throw new SQLException("Primary key login is empty or null");
+        }
+        
         if (client.getName() != null && !client.getName().equals(""))
         {
             preparedStatement.setString(2, client.getName());
@@ -103,7 +110,8 @@ public class Model
         {
             preparedStatement.setNull(4, java.sql.Types.VARCHAR);
         }
-    
+        // set password as null - we change it in other query, because some of
+        // users can be not register in system
         preparedStatement.setNull(5, Types.INTEGER);
         
         preparedStatement.executeUpdate();
@@ -111,22 +119,31 @@ public class Model
     
     /**
      * Remove client and clients tickets form the DataBase.
+     *
+     * @param clientLogin first argument must be given not null - primary key
      */
-    public void removeClient(ClientDB client)
+    public void removeClient(String clientLogin)
     throws SQLException
     {
-        LinkedList<TicketDB> clientTickets = getClientTickets(client);
-    
+        LinkedList<TicketDB> clientTickets = getClientTickets(clientLogin);
+        
         for (TicketDB ticket : clientTickets)
         {
-            removeTicket(ticket);
+            removeTicket(ticket.getIdTicket());
         }
         
         PreparedStatement preparedStatement = this.connection
                 .prepareStatement("DELETE FROM client "
                                   + "WHERE login = ?;");
     
-        preparedStatement.setString(1, client.getLogin());
+        if (clientLogin != null)
+        {
+            preparedStatement.setString(1, clientLogin);
+        }
+        else
+        {
+            throw new SQLException("Primary key clientLogin is null");
+        }
         
         preparedStatement.executeUpdate();
     }
@@ -134,17 +151,23 @@ public class Model
     /**
      * Remove ticket from the DataBase.
      *
-     * @param ticket first argument in constructor must be given not null -
-     *               primary key
+     * @param ticketId first argument must be given not null - primary key
      */
-    public void removeTicket(TicketDB ticket)
+    public void removeTicket(Integer ticketId)
     throws SQLException
     {
         PreparedStatement preparedStatement = this.connection
                 .prepareStatement("DELETE FROM ticket "
                                   + "WHERE idTicket = ?;");
     
-        preparedStatement.setInt(1, ticket.getIdTicket());
+        if (ticketId != null)
+        {
+            preparedStatement.setInt(1, ticketId);
+        }
+        else
+        {
+            throw new SQLException("Primary key ticketID is null");
+        }
         
         preparedStatement.executeUpdate();
     }
@@ -193,17 +216,23 @@ public class Model
             preparedStatement.setNull(3, java.sql.Types.VARCHAR);
         }
     
-        preparedStatement.setString(4, client.getLogin());
+        if (client.getLogin() != null)
+        {
+            preparedStatement.setString(4, client.getLogin());
+        }
+        else
+        {
+            throw new SQLException("Primary key login is empty or null");
+        }
         
         preparedStatement.executeUpdate();
     }
     
     /**
-     * @param client first argument in constructor must be given not null -
-     *               primary key
+     * @param clientLogin first argument must be given not null - primary key
      * @return LinkedList containing tickets
      */
-    public LinkedList<TicketDB> getClientTickets(ClientDB client)
+    public LinkedList<TicketDB> getClientTickets(String clientLogin)
     throws SQLException
     {
         PreparedStatement preparedStatement = this.connection
@@ -211,7 +240,15 @@ public class Model
                                   + "FROM ticket "
                                   + "WHERE Client_login = ?;");
     
-        preparedStatement.setString(1, client.getLogin());
+        if (clientLogin != null)
+        {
+            preparedStatement.setString(1, clientLogin);
+        }
+        else
+        {
+            throw new SQLException("Primary key clientLogin is null");
+        }
+        
         ResultSet resultSet = preparedStatement.executeQuery();
         
         LinkedList<TicketDB> tickets = new LinkedList<>();
@@ -243,18 +280,17 @@ public class Model
             events.add(new CulturalEventDB(resultSet.getInt(1),
                     resultSet.getString(2), resultSet.getDate(3),
                     resultSet.getInt(4), resultSet.getString(5),
-                    resultSet.getString(6)));
+                    resultSet.getString(6), resultSet.getInt(7)));
         }
         
         return events;
     }
     
     /**
-     * @param client   first argument in constructor must be given not null -
-     *                 primary key
-     * @param password must be given not null
+     * @param clientLogin first argument must be given not null - primary key
+     * @param password    must be given not null
      */
-    public void changePassword(ClientDB client, String password)
+    public void changePassword(String clientLogin, String password)
     throws SQLException
     {
         PreparedStatement preparedStatement = this.connection
@@ -272,26 +308,44 @@ public class Model
             throw new SQLException("password is null");
         }
     
-        preparedStatement.setString(2, client.getLogin());
-    
+        if (clientLogin != null)
+        {
+            preparedStatement.setString(2, clientLogin);
+        }
+        else
+        {
+            throw new SQLException("Primary key clientLogin is null");
+        }
+        
         preparedStatement.executeUpdate();
     }
     
-    public boolean isCorrectLogIn(String username, String password)
+    /**
+     * @param clientLogin first argument must be given not null - primary key
+     * @return true if LogIn is correct
+     */
+    public boolean isCorrectLogIn(String clientLogin, String password)
     throws SQLException
     {
         PreparedStatement preparedStatement = this.connection
                 .prepareStatement("SELECT password "
                                   + "FROM client "
                                   + "WHERE login = ? ;");
+    
+        if (clientLogin != null)
+        {
+            preparedStatement.setString(1, clientLogin);
+        }
+        else
+        {
+            throw new SQLException("Primary key clientLogin is null");
+        }
         
-        preparedStatement.setString(1, username);
         ResultSet result = preparedStatement.executeQuery();
         
         if (result.next())
         {
-            if (result.getInt(1) == password
-                    .hashCode())
+            if (result.getInt(1) == password.hashCode())
             {
                 return true;
             }
@@ -307,11 +361,10 @@ public class Model
     }
     
     /**
-     * @param client first argument in constructor must be given not null -
-     *               primary key
+     * @param clientLogin first argument must be given not null - primary key
      * @return number of tickets belonging to the client
      */
-    public int getNumberOfTickets(ClientDB client)
+    public int getNumberOfTickets(String clientLogin)
     throws SQLException
     {
         PreparedStatement preparedStatement = this.connection
@@ -320,7 +373,14 @@ public class Model
                                   + "WHERE Client_login = ? "
                                   + "GROUP BY Client_login;");
     
-        preparedStatement.setString(1, client.getLogin());
+        if (clientLogin != null)
+        {
+            preparedStatement.setString(1, clientLogin);
+        }
+        else
+        {
+            throw new SQLException("Primary key clientLogin is null");
+        }
         
         ResultSet result = preparedStatement.executeQuery();
         
@@ -335,11 +395,10 @@ public class Model
     }
     
     /**
-     * @param client first argument in constructor must be given not null -
-     *               primary key
+     * @param clientLogin first argument must be given not null - primary key
      * @return max client ticket price
      */
-    public int getMaxTicketPrice(ClientDB client)
+    public int getMaxTicketPrice(String clientLogin)
     throws SQLException
     {
         PreparedStatement preparedStatement = this.connection
@@ -347,7 +406,14 @@ public class Model
                                   + "FROM ticket "
                                   + "WHERE Client_login = ?;");
     
-        preparedStatement.setString(1, client.getLogin());
+        if (clientLogin != null)
+        {
+            preparedStatement.setString(1, clientLogin);
+        }
+        else
+        {
+            throw new SQLException("Primary key clientLogin is null");
+        }
         
         ResultSet result = preparedStatement.executeQuery();
         
@@ -362,17 +428,26 @@ public class Model
     }
     
     /**
+     * @param clientLogin first argument must be given not null - primary key
      * @return true, if client is in the DataBase
      */
-    public boolean isClient(ClientDB client)
+    public boolean isClient(String clientLogin)
     throws SQLException
     {
         PreparedStatement preparedStatement = this.connection
                 .prepareStatement("SELECT login "
                                   + "FROM client "
                                   + "WHERE login = ? ;");
+    
+        if (clientLogin != null)
+        {
+            preparedStatement.setString(1, clientLogin);
+        }
+        else
+        {
+            throw new SQLException("Primary key clientLogin is null");
+        }
         
-        preparedStatement.setString(1, client.getLogin());
         ResultSet result = preparedStatement.executeQuery();
         
         if (result.next())
@@ -386,9 +461,10 @@ public class Model
     }
     
     /**
+     * @param ticketId first argument must be given not null - primary key
      * @return performers related with ticket
      */
-    public LinkedList<PerformerDB> getPerformers(TicketDB ticketDB)
+    public LinkedList<PerformerDB> getPerformers(Integer ticketId)
     throws SQLException
     {
         PreparedStatement preparedStatement = this.connection
@@ -398,8 +474,16 @@ public class Model
                                   + "(SELECT CulturalEvent_idCulturalEvent "
                                   + "FROM ticket "
                                   + "WHERE idTicket =  ?);");
+    
+        if (ticketId != null)
+        {
+            preparedStatement.setInt(1, ticketId);
+        }
+        else
+        {
+            throw new SQLException("Primary key ticketID is null");
+        }
         
-        preparedStatement.setInt(1, ticketDB.getIdTicket());
         ResultSet resultSet = preparedStatement.executeQuery();
         
         LinkedList<PerformerDB> performers = new LinkedList<>();

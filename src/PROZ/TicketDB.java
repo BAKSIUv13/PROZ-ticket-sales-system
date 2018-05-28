@@ -1,7 +1,5 @@
 package PROZ;
 
-import java.sql.SQLException;
-
 /**
  * TicketDB is a Class which helps to send a data between DataBase and
  * Model&LogInView.
@@ -23,29 +21,12 @@ public class TicketDB
     
     public TicketDB(Integer idTicket, Integer price, Boolean isPersonal,
             String clientLogin, Integer culturalEventId)
-    throws SQLException
     {
         this.idTicket = idTicket;
-        
-        if (price != null)
-        {
-            this.price = price;
-        }
-        else
-        {
-            throw new SQLException("price cannot be null");
-        }
+        this.price = price;
         this.isPersonal = isPersonal;
-        if (clientLogin != null && culturalEventId != null)
-        {
-            this.clientLogin = clientLogin;
-            this.culturalEventId = culturalEventId;
-        }
-        else
-        {
-            throw new SQLException("clientLogin culturalEventId is a not null"
-                                   + "foreign and it cannot be null");
-        }
+        this.clientLogin = clientLogin;
+        this.culturalEventId = culturalEventId;
     }
     
     public TicketDB(TicketDB ticket)

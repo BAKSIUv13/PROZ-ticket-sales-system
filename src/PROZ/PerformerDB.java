@@ -1,27 +1,18 @@
 package PROZ;
 
-import java.sql.SQLException;
-
 /**
  * PerformerDB is a Class which helps to send a data between DataBase and
- * * Model&LogInView.
+ * Model&LogInView.
+ *
+ * @author BAKSIUv13
  */
 public class PerformerDB
 {
     private String name;
     
     public PerformerDB(String name)
-    throws SQLException
     {
-        if (name != null)
-        {
-            this.name = name;
-        }
-        else
-        {
-            throw new SQLException("name is a primary key and it cannot be "
-                                   + "null");
-        }
+        this.name = name;
     }
     
     public PerformerDB(PerformerDB performer)

@@ -1,6 +1,5 @@
 package PROZ;
 
-import java.sql.SQLException;
 import java.util.Date;
 
 /**
@@ -14,50 +13,27 @@ public class CulturalEventDB
     private Integer idCulturalEvent;
     private String type;
     private Date date;
-    private int nrPeople;
+    private Integer nrPeople;
     private String placeCity;
     private String placeStreet;
+    private Integer actualTicketPrice;
     
     public CulturalEventDB(Integer idCulturalEvent)
-    throws SQLException
     {
-        if (idCulturalEvent != null)
-        {
-            this.idCulturalEvent = idCulturalEvent;
-        }
-        else
-        {
-            throw new SQLException("idCulturaEvent is a primary key and it "
-                                   + "cannot be null");
-        }
+        this.idCulturalEvent = idCulturalEvent;
     }
     
-    public CulturalEventDB(Integer idCulturalEvent, String type, Date date,
-            int nrPeople, String placeCity, String placeStreet)
-    throws SQLException
+    public CulturalEventDB(Integer idCulturalEvent, String type,
+            Date date, Integer nrPeople, String placeCity,
+            String placeStreet, Integer actualTicketPrice)
     {
-        if (idCulturalEvent != null)
-        {
-            this.idCulturalEvent = idCulturalEvent;
-        }
-        else
-        {
-            throw new SQLException("idCulturaEvent is a primary key and it "
-                                   + "cannot be null");
-        }
+        this.idCulturalEvent = idCulturalEvent;
         this.type = type;
         this.date = date;
         this.nrPeople = nrPeople;
-        if (placeCity != null && placeStreet != null)
-        {
-            this.placeCity = placeCity;
-            this.placeStreet = placeStreet;
-        }
-        else
-        {
-            throw new SQLException("placeCity and placeStreet is necessary - "
-                                   + "not null foreign key");
-        }
+        this.placeCity = placeCity;
+        this.placeStreet = placeStreet;
+        this.actualTicketPrice = actualTicketPrice;
     }
     
     public Integer getIdCulturalEvent()
@@ -88,5 +64,10 @@ public class CulturalEventDB
     public String getPlaceStreet()
     {
         return this.placeStreet;
+    }
+    
+    public Integer getActualTicketPrice()
+    {
+        return this.actualTicketPrice;
     }
 }

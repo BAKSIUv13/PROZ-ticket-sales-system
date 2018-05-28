@@ -109,13 +109,11 @@ public class TicketView
         
         try
         {
-            ClientDB client = new ClientDB(this.login);
-            
             this.nrOfTicketsLabel.setText("Number of tickets: " + this.model
-                    .getNumberOfTickets(client));
+                    .getNumberOfTickets(this.login));
             
             this.maxTicketPriceLabel.setText("Maximum price: " + this.model
-                    .getMaxTicketPrice(client));
+                    .getMaxTicketPrice(this.login));
         }
         catch (SQLException ex)
         {
@@ -156,7 +154,7 @@ public class TicketView
         
         try
         {
-            tickets = this.model.getClientTickets(new ClientDB(this.login));
+            tickets = this.model.getClientTickets(this.login);
         }
         catch (SQLException ex)
         {
@@ -184,7 +182,8 @@ public class TicketView
         {
             try
             {
-                performers = this.model.getPerformers(selectedTicket);
+                performers = this.model.getPerformers(
+                        selectedTicket.getIdTicket());
             }
             catch (SQLException ex)
             {

@@ -70,11 +70,12 @@ public class RegisterView
         }
         else if (!isClient(createClient(this.login.getText())))
         {
-            if (this.password.getText().length() < this.model.PASSWORD_LENGTH)
+            if (this.password.getText().length()
+                < this.model.MIN_PASSWORD_LENGTH)
             {
                 this.signUpLabel.setTextFill(Color.web("#b90000"));
                 this.signUpLabel.setText("Minimum " +
-                                         this.model.PASSWORD_LENGTH +
+                                         this.model.MIN_PASSWORD_LENGTH +
                                          " characters");
             }
             else if (this.password.getText().equals(
@@ -85,7 +86,7 @@ public class RegisterView
                         this.city.getText());
                 
                 addClient(clientDB);
-                changePassword(clientDB, this.password.getText());
+                changePassword(clientDB.getLogin(), this.password.getText());
     
                 this.signUpLabel.setTextFill(Color.web("#6bd700"));
                 this.signUpLabel.setText("Signed Up!");
@@ -122,9 +123,7 @@ public class RegisterView
         boolean isClient = false;
         try
         {
-            isClient = this.model.isClient(
-                    new ClientDB(this.login.getText(), null, null,
-                            null));
+            isClient = this.model.isClient(this.login.getText());
         }
         catch (SQLException ex)
         {
@@ -137,15 +136,7 @@ public class RegisterView
     private ClientDB createClient(String username)
     {
         ClientDB client = null;
-        
-        try
-        {
-            client = new ClientDB(username, null, null, null);
-        }
-        catch (SQLException ex)
-        {
-            ViewMethods.exceptionHandler(ex);
-        }
+        client = new ClientDB(username);
         
         return client;
     }
@@ -154,15 +145,7 @@ public class RegisterView
             surname, String city)
     {
         ClientDB client = null;
-        
-        try
-        {
-            client = new ClientDB(login, name, surname, city);
-        }
-        catch (SQLException ex)
-        {
-            ViewMethods.exceptionHandler(ex);
-        }
+        client = new ClientDB(login, name, surname, city);
         
         return client;
     }
@@ -179,11 +162,11 @@ public class RegisterView
         }
     }
     
-    private void changePassword(ClientDB client, String password)
+    private void changePassword(String clientLogin, String password)
     {
         try
         {
-            this.model.changePassword(client, password);
+            this.model.changePassword(clientLogin, password);
         }
         catch (SQLException ex)
         {

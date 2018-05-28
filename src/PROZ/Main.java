@@ -1,7 +1,7 @@
 /*
  * Ticket Sales System
  * Bartlomiej Kulik
- * 26 May 2018
+ * 28 May 2018
  */
 package PROZ;
 
@@ -31,8 +31,8 @@ public class Main
     @Override public void start(Stage primaryStage)
     throws Exception
     {
-        Model model = new Model();
-    
+        Model model = new Model(); // only 1 instance
+        
         // get root
         FXMLLoader fxmlLoader = new FXMLLoader();
         Parent root = fxmlLoader.load(
@@ -41,8 +41,8 @@ public class Main
         // set model in new controller
         LogInView logInViewController = (LogInView) fxmlLoader.getController();
         logInViewController.setModel(model);
-        
-        // set stage parameters
+    
+        // set main stage parameters
         primaryStage.setTitle("Ticket Sales System");
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);

@@ -69,8 +69,7 @@ public class ClientView
         {
             try
             {
-                this.model.changePassword(new ClientDB(this.login, null,
-                        null, null), newPassword);
+                this.model.changePassword(this.login, newPassword);
             }
             catch (SQLException ex)
             {
@@ -130,8 +129,7 @@ public class ClientView
         {
             try
             {
-                this.model.removeClient(
-                        new ClientDB(this.login, null, null, null));
+                this.model.removeClient(this.login);
             }
             catch (SQLException ex)
             {
