@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
@@ -58,16 +59,20 @@ public class LogInView
                 // get stage
                 Stage primaryStage = (Stage) ((Node) event.getSource())
                         .getScene().getWindow();
-                primaryStage.hide();
     
-                // set new stage
+                // set new stage and scene
                 Scene clientView = new Scene(root);
-                primaryStage.setScene(clientView);
-                primaryStage.setResizable(false);
-                primaryStage.setMinWidth(1024);
-                primaryStage.setMinHeight(576);
     
-                primaryStage.show();
+                Stage wideStage = new Stage();
+                wideStage.setScene(clientView);
+    
+                // set stage parameters
+                wideStage.setTitle("Ticket Sales System");
+                wideStage.getIcons().add(new Image("PROZ/icon.jpg"));
+                wideStage.setResizable(false);
+    
+                primaryStage.close();
+                wideStage.show();
             }
             else
             {

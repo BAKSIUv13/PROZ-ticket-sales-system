@@ -287,6 +287,41 @@ public class Model
     }
     
     /**
+     * @param id ticket - not null
+     * @return ticket with given id
+     */
+    public CulturalEventDB getCulturalEvent(Integer id)
+    throws SQLException
+    {
+        PreparedStatement preparedStatement = this.connection
+                .prepareStatement("SELECT * "
+                                  + "FROM culturalevent "
+                                  + "WHERE idCulturalEvent = ?;");
+        if (id != null)
+        {
+            preparedStatement.setInt(1, id);
+        }
+        else
+        {
+            throw new SQLException("id is null");
+        }
+        
+        ResultSet resultSet = preparedStatement.executeQuery();
+        
+        CulturalEventDB event = null;
+        
+        if (resultSet.next())
+        {
+            event = new CulturalEventDB(resultSet.getInt(1), resultSet
+                    .getString(2), resultSet.getDate(3), resultSet.getInt(4),
+                    resultSet.getString(5), resultSet.getString(6), resultSet
+                    .getInt(7));
+        }
+        
+        return event;
+    }
+    
+    /**
      * @param clientLogin first argument must be given not null - primary key
      * @param password    must be given not null
      */
@@ -493,5 +528,87 @@ public class Model
         }
         
         return performers;
+    }
+    
+    /**
+     * @param clientLogin first argument must be given not null - primary key
+     * @return client events
+     */
+    public LinkedList<CulturalEventDB> getClientEvents(String clientLogin)
+    throws SQLException
+    {
+        PreparedStatement preparedStatement = this.connection.prepareStatement(
+                "select\n"
+                + "  culturalevent.idCulturalEvent,\n"
+                + "  culturalevent.date,\n"
+                + "  culturalevent.Place_city,\n"
+                + "  culturalevent.Place_street\n"
+                + "from culturalevent\n"
+                + "  inner join ticket t\n"
+                + "    on culturalevent.idCulturalEvent = t"
+                + ".CulturalEvent_idCulturalEvent\n"
+                + "  where t.Client_login = ?;");
+        
+        
+        if (clientLogin != null)
+        {
+            preparedStatement.setString(1, clientLogin);
+        }
+        else
+        {
+            throw new SQLException("Primary key clientLogin is null");
+        }
+        
+        ResultSet resultSet = preparedStatement.executeQuery();
+        
+        LinkedList<CulturalEventDB> events = new LinkedList<>();
+        while (resultSet.next())
+        {
+            events.add(new CulturalEventDB(resultSet.getInt(1), null,
+                    resultSet.getDate(2), null, resultSet.getString(3),
+                    resultSet.getString(4), null));
+        }
+        
+        return events;
+    }
+    
+    public LinkedList<PerformerDB> getAllPerformers()
+    throws SQLException
+    {
+        PreparedStatement preparedStatement = this.connection
+                .prepareStatement("SELECT name "
+                                  + "FROM performer;");
+        
+        ResultSet resultSet = preparedStatement.executeQuery();
+        
+        LinkedList<PerformerDB> performers = null;
+        
+        while (resultSet.next())
+        {
+            performers.add(new PerformerDB(resultSet.getString(1)));
+        }
+        
+        return performers;
+    }
+    
+    public LinkedList<CulturalEventHasPerformer> getEventsAndPerformers()
+    throws SQLException
+    {
+        PreparedStatement preparedStatement = this.connection
+                .prepareStatement("SELECT * "
+                                  + "FROM culturalevent_has_performer;");
+        
+        ResultSet resultSet = preparedStatement.executeQuery();
+        
+        LinkedList<CulturalEventHasPerformer> eventsAndPerformers = new
+                LinkedList<>();
+        
+        while (resultSet.next())
+        {
+            eventsAndPerformers.add(new CulturalEventHasPerformer(resultSet
+                    .getInt(1), resultSet.getString(2)));
+        }
+        
+        return eventsAndPerformers;
     }
 }

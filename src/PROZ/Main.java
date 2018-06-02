@@ -1,7 +1,7 @@
 /*
  * Ticket Sales System
  * Bartlomiej Kulik
- * 28 May 2018
+ * 2 June 2018
  */
 package PROZ;
 
@@ -42,12 +42,15 @@ public class Main
         LogInView logInViewController = (LogInView) fxmlLoader.getController();
         logInViewController.setModel(model);
     
+        // set main stage stage
+        primaryStage.setScene(new Scene(root));
+        
         // set main stage parameters
         primaryStage.setTitle("Ticket Sales System");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.setResizable(false);
         primaryStage.getIcons().add(new Image("PROZ/icon.jpg"));
-        // show first stage
+        primaryStage.setResizable(false);
+    
+        // show main stage
         primaryStage.show();
     }
 }

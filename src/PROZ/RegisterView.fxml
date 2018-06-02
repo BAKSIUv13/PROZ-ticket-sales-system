@@ -6,15 +6,16 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity" prefHeight="450.0" prefWidth="278.0"
+            minWidth="-Infinity" prefHeight="500.0" prefWidth="309.0"
             xmlns="http://javafx.com/javafx/9.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="PROZ.RegisterView">
     <children>
-        <Button fx:id="signUp" layoutX="206.0" layoutY="411.0"
+        <Button fx:id="signUp" layoutX="197.0" layoutY="391.0"
                 mnemonicParsing="false" onAction="#signUpAction"
                 text="Sign Up"/>
-        <VBox prefHeight="301.0" prefWidth="278.0" spacing="8.0">
+        <VBox layoutX="16.0" layoutY="14.0" prefHeight="301.0" prefWidth="278.0"
+              spacing="8.0">
             <padding>
                 <Insets bottom="32.0" left="32.0" right="32.0" top="96.0"/>
             </padding>
@@ -33,14 +34,14 @@
                            promptText="surname"/>
                 <TextField fx:id="city" onKeyPressed="#signUpEnterAction"
                            promptText="cty"/>
+                <Label text="* You must complete these fields"
+                       textFill="#838384"/>
             </children>
         </VBox>
-        <Label layoutX="14.0" layoutY="310.0"
-               text="* You must complete these fields" textFill="#838384"/>
-        <Button fx:id="goBack" layoutX="14.0" layoutY="411.0"
+        <Button fx:id="goBack" layoutX="55.0" layoutY="391.0"
                 mnemonicParsing="false" onAction="#goBackAction"
                 text="Go back"/>
-        <BorderPane layoutX="39.0" layoutY="327.0" prefHeight="76.0"
+        <BorderPane layoutX="55.0" layoutY="328.0" prefHeight="53.0"
                     prefWidth="200.0">
             <center>
                 <Label fx:id="signUpLabel" alignment="CENTER"

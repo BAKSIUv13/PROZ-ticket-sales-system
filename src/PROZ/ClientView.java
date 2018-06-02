@@ -159,4 +159,11 @@ public class ClientView
         ViewMethods.changeSceneTicketAction(event, this, this.login,
                 this.model);
     }
+    
+    public void changeSceneEventsAction(Event event)
+    throws Exception
+    {
+        ViewMethods.changeSceneEventsAction(event, this, this.login,
+                this.model);
+    }
 }

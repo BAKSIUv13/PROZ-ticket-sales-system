@@ -9,6 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -103,6 +105,17 @@ public class TicketView
                 this.model);
     }
     
+    public void doubleClickedTickedAction(MouseEvent event)
+    {
+        if (event.getButton().equals(MouseButton.PRIMARY))
+        {
+            if (event.getClickCount() == 2)
+            {
+                showPerformersAction();
+            }
+        }
+    }
+    
     private ObservableList<TicketDB> getTickets()
     {
         ObservableList<TicketDB> ticketsObservable = FXCollections
@@ -154,5 +167,12 @@ public class TicketView
         }
         
         return performerObservable;
+    }
+    
+    public void changeSceneEventsAction(Event event)
+    throws Exception
+    {
+        ViewMethods.changeSceneEventsAction(event, this, this.login,
+                this.model);
     }
 }

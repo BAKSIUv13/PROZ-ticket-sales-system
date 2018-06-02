@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -42,21 +43,20 @@ public class ViewMethods
         // get stage
         Stage primaryStage = (Stage) ((Node) event.getSource())
                 .getScene().getWindow();
-        primaryStage.setMinWidth(0);
-        primaryStage.setMinHeight(0);
-        primaryStage.hide();
-        
-        // set new stage
-        Scene clientView = new Scene(root);
-        primaryStage.setScene(clientView);
-        primaryStage.setMaxWidth(309);
-        primaryStage.setMaxHeight(500);
-        primaryStage.setMinWidth(309);
-        primaryStage.setMinHeight(500);
-        
-        primaryStage.setResizable(false);
-        
-        primaryStage.show();
+    
+        // set new stage and scene
+        Scene logInScene = new Scene(root);
+    
+        Stage logInStage = new Stage();
+        logInStage.setScene(logInScene);
+    
+        // set main stage parameters
+        logInStage.setTitle("Ticket Sales System");
+        logInStage.setResizable(false);
+        logInStage.getIcons().add(new Image("PROZ/icon.jpg"));
+    
+        primaryStage.close();
+        logInStage.show();
     }
     
     static public void changeSceneClientAction(Event event, Object object,
@@ -102,5 +102,25 @@ public class ViewMethods
         window.setScene(new Scene(root));
     }
     
-    
+    static public void changeSceneEventsAction(Event event, Object object,
+            String login, Model model)
+    throws Exception
+    {
+        // get root
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Parent root = fxmlLoader.load(
+                object.getClass().getResource("EventsView.fxml").openStream());
+        
+        // set model in new controller
+        EventsView eventsViewController = (EventsView) fxmlLoader
+                .getController();
+        eventsViewController.setModel(model);
+        eventsViewController.setLogin(login);
+        eventsViewController.refreshClientEvents();
+        
+        // set new stage parameters
+        Stage window = (Stage) ((Node) event.getSource()).getScene()
+                                                         .getWindow();
+        window.setScene(new Scene(root));
+    }
 }
