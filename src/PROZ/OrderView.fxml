@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/9.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="PROZ.OrderView">
+    <children>
+        <TableView fx:id="events" layoutX="15.0" layoutY="136.0"
+                   prefHeight="250.0" prefWidth="571.0">
+            <columns>
+                <TableColumn fx:id="idColumn" prefWidth="50.0" resizable="false"
+                             text="Event id"/>
+                <TableColumn fx:id="typeColumn" prefWidth="50.0"
+                             resizable="false" text="Type"/>
+                <TableColumn fx:id="dateColumn" prefWidth="120.0"
+                             resizable="false" text="Date"/>
+                <TableColumn fx:id="nrOfPeopleColumn" prefWidth="75.0"
+                             resizable="false" text="People"/>
+                <TableColumn fx:id="cityColumn" prefWidth="75.0"
+                             resizable="false" text="City"/>
+                <TableColumn fx:id="streetColumn" prefWidth="130.0"
+                             resizable="false" text="Street"/>
+                <TableColumn fx:id="ticketPriceColumn" prefWidth="70.0"
+                             resizable="false" text="Ticket Price"/>
+            </columns>
+        </TableView>
+        <Label layoutX="88.0" layoutY="14.0"
+               text="Do you want to buy all the tickets below?">
+            <font>
+                <Font name="Leelawadee UI Semilight" size="24.0"/>
+            </font>
+        </Label>
+        <RadioButton fx:id="regulations" layoutX="219.0" layoutY="57.0"
+                     mnemonicParsing="false" onAction="#agreeAction"
+                     text="I have read the regulations"/>
+        <Button fx:id="buy" disable="true" layoutX="346.0" layoutY="94.0"
+                mnemonicParsing="false" onAction="#buyAction" text="Buy"/>
+        <Button fx:id="cancel" layoutX="219.0" layoutY="94.0"
+                mnemonicParsing="false" onAction="#cancelAction" text="Cancel"/>
+        <Label fx:id="boughtLabel" layoutX="469.0" layoutY="98.0" text="Bought!"
+               textFill="#09ff00" visible="false"/>
+    </children>
+</AnchorPane>

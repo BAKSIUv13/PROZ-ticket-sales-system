@@ -1,7 +1,7 @@
 /*
  * Ticket Sales System
  * Bartlomiej Kulik
- * 2 June 2018
+ * 3 June 2018
  */
 package PROZ;
 

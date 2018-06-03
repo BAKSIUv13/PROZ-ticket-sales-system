@@ -32,13 +32,19 @@
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
             </padding>
             <children>
-                <TextField fx:id="performer" promptText="performer"/>
-                <Button contentDisplay="CENTER" mnemonicParsing="false"
-                        onAction="#searchEvents" prefHeight="25.0"
-                        prefWidth="174.0" text="Search"/>
-                <Button contentDisplay="CENTER" mnemonicParsing="false"
-                        onAction="#refreshClientEvents" prefHeight="25.0"
-                        prefWidth="178.0" text="Refresh my events"/>
+                <TextField fx:id="performer" onKeyPressed="#searchEnterAction"
+                           promptText="performer"/>
+                <Button alignment="CENTER" contentDisplay="CENTER"
+                        mnemonicParsing="false" onAction="#searchEvents"
+                        prefHeight="25.0" prefWidth="174.0" text="Search"/>
+                <Button alignment="CENTER" contentDisplay="CENTER"
+                        mnemonicParsing="false"
+                        onAction="#buySelectedEventsAction" prefHeight="25.0"
+                        prefWidth="168.0" text="Buy selected events"/>
+                <Button alignment="CENTER" contentDisplay="CENTER"
+                        mnemonicParsing="false" onAction="#refreshClientEvents"
+                        prefHeight="25.0" prefWidth="178.0"
+                        text="Refresh my events"/>
             </children>
         </VBox>
     </left>

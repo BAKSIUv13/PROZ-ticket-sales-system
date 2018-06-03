@@ -93,7 +93,7 @@ public class LogInView
     {
         if (event.getCode().equals(KeyCode.ENTER))
         {
-            signInAction((Event) event);
+            signInAction(event);
         }
     }
     

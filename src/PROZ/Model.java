@@ -611,4 +611,35 @@ public class Model
         
         return eventsAndPerformers;
     }
+    
+    public void addTicket(CulturalEventDB event, String clientLogin)
+    throws SQLException
+    {
+        PreparedStatement preparedStatement = this.connection
+                .prepareStatement("insert into ticket(price, Client_login, "
+                                  + "CulturalEvent_idCulturalEvent) "
+                                  + "values (?, ?, ?);");
+        
+        preparedStatement.setInt(1, event.getActualTicketPrice());
+        
+        if (clientLogin != null)
+        {
+            preparedStatement.setString(2, clientLogin);
+        }
+        else
+        {
+            throw new SQLException("clientLogin is null");
+        }
+        
+        if (event.getIdCulturalEvent() != null)
+        {
+            preparedStatement.setInt(3, event.getIdCulturalEvent());
+        }
+        else
+        {
+            throw new SQLException("event doesn't have id");
+        }
+        
+        preparedStatement.executeUpdate();
+    }
 }
