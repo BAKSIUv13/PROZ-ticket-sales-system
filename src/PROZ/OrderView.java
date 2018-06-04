@@ -15,16 +15,18 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 /**
+ * OrderView.fxml class controller.
+ *
  * @author BAKSIUv13
  */
 public class OrderView
         implements Initializable
 {
-    @FXML private RadioButton regulations;
-    @FXML private Button buy;
-    @FXML private Button cancel;
+    @FXML private RadioButton regulationsRadioButton;
+    @FXML private Button buyButton;
+    @FXML private Button cancelButton;
     
-    @FXML private TableView<CulturalEventDB> events;
+    @FXML private TableView<CulturalEventDB> eventsTable;
     
     @FXML private TableColumn<CulturalEventDB, Integer> idColumn;
     @FXML private TableColumn<CulturalEventDB, String> typeColumn;
@@ -37,9 +39,13 @@ public class OrderView
     @FXML private Label boughtLabel;
     
     private Model model;
-    private String login;
+    private String clientLogin;
+    // to show
     private ObservableList<CulturalEventDB> selectedEvents;
     
+    /**
+     * sets column CellValueFactory
+     */
     @Override public void initialize(URL location, ResourceBundle resources)
     {
         this.idColumn.setCellValueFactory(
@@ -63,30 +69,44 @@ public class OrderView
         this.model = model;
     }
     
-    public void setLogin(String login)
+    public void setClientLogin(String clientLogin)
     {
-        this.login = login;
+        this.clientLogin = clientLogin;
     }
     
+    /**
+     * Shows selected events.
+     *
+     * @param selectedEvents form earlier stage
+     */
     public void setSelectedEvents(
             ObservableList<CulturalEventDB> selectedEvents)
     {
         this.selectedEvents = selectedEvents;
-        this.events.setItems(selectedEvents);
+        this.eventsTable.setItems(selectedEvents);
     }
     
+    /**
+     * regulationsRadioButton action.
+     */
     public void agreeAction()
     {
-        if (this.regulations.isSelected() && this.selectedEvents.size() > 0)
+        if (this.regulationsRadioButton.isSelected()
+            && this.selectedEvents.size() > 0)
         {
-            this.buy.setDisable(false);
+            this.buyButton.setDisable(false);
         }
         else
         {
-            this.buy.setDisable(true);
+            this.buyButton.setDisable(true);
         }
     }
     
+    /**
+     * cancelButton action.
+     *
+     * @param event is necessary to get primary stage
+     */
     public void cancelAction(Event event)
     {
         // get stage
@@ -96,13 +116,16 @@ public class OrderView
         primaryStage.close();
     }
     
+    /**
+     * buyButton action
+     */
     public void buyAction()
     {
         try
         {
             for (CulturalEventDB event : this.selectedEvents)
             {
-                this.model.addTicket(event, this.login);
+                this.model.addTicket(event, this.clientLogin);
             }
         }
         catch (SQLException ex)
@@ -110,9 +133,8 @@ public class OrderView
             ViewMethods.exceptionHandler(ex);
         }
         
-        this.buy.setDisable(true);
+        this.buyButton.setDisable(true);
         this.boughtLabel.setVisible(true);
-        this.cancel.setText("Go back");
-        
+        this.cancelButton.setText("Go back");
     }
 }

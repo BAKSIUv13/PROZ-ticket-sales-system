@@ -14,9 +14,9 @@
                 <Font name="Leelawadee UI Semilight" size="24.0"/>
             </font>
         </Label>
-        <TextField fx:id="login" layoutX="80.0" layoutY="176.0"
-                   onKeyPressed="#logInEnterAction" promptText="login"/>
-        <PasswordField fx:id="password" layoutX="80.0" layoutY="214.0"
+        <TextField fx:id="loginField" layoutX="80.0" layoutY="176.0"
+                   onKeyPressed="#logInEnterAction" promptText="clientLogin"/>
+        <PasswordField fx:id="passwordField" layoutX="80.0" layoutY="214.0"
                        onKeyPressed="#logInEnterAction" promptText="password"/>
         <Button layoutX="80.0" layoutY="254.0" mnemonicParsing="false"
                 onAction="#signUpAction" text="Sign Up"/>
@@ -27,7 +27,7 @@
                 <Font size="10.0"/>
             </font>
         </Label>
-        <Label fx:id="signInFailed" layoutX="76.0" layoutY="306.0"
+        <Label fx:id="signInFailedLabel" layoutX="76.0" layoutY="306.0"
                text="Sign In failed. Try again." textFill="#b90000"
                visible="false"/>
     </children>

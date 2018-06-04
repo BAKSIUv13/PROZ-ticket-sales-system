@@ -1,10 +1,11 @@
 package PROZ;
 
-import java.util.Date;
+
+import java.sql.Date;
 
 /**
- * CulturalEventDb is a Class which helps to send a data between DataBase and
- * Model&LogInView.
+ * CulturalEventDB is a Class which helps to send a data between DataBase and
+ * Model&Controllers.
  *
  * @author BAKSIUv13
  */

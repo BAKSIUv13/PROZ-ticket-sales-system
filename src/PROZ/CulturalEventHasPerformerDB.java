@@ -1,11 +1,17 @@
 package PROZ;
 
-public class CulturalEventHasPerformer
+/**
+ * CulturalEventHasPerformerDB is a Class which helps to send a data between
+ * DataBase and Model&Controllers.
+ *
+ * @author BAKSIUv13
+ */
+public class CulturalEventHasPerformerDB
 {
     private Integer culturalEventId;
     private String performerName;
     
-    public CulturalEventHasPerformer(Integer culturalEventId,
+    public CulturalEventHasPerformerDB(Integer culturalEventId,
             String performerName)
     {
         this.culturalEventId = culturalEventId;

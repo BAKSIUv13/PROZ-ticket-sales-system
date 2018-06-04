@@ -18,6 +18,8 @@ import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 /**
+ * TicketView.fxml controller class.
+ *
  * @author BAKSIUv13
  */
 public class TicketView
@@ -35,8 +37,11 @@ public class TicketView
     @FXML private TableColumn<PerformerDB, String> performerNameColumn;
     
     private Model model;
-    private String login;
+    private String clientLogin;
     
+    /**
+     * sets column CellValueFactory
+     */
     @Override public void initialize(URL location, ResourceBundle resources)
     {
         this.idTicketColumn.setCellValueFactory(
@@ -51,26 +56,25 @@ public class TicketView
                 new PropertyValueFactory<>("name"));
     }
     
-    public void logOutAction(Event event)
-    throws Exception
-    {
-        ViewMethods.logOutAction(event, this, this.login, this.model);
-    }
-    
     public void setModel(Model model)
     {
         this.model = model;
     }
     
-    public String getLogin()
+    public void setClientLogin(String clientLogin)
     {
-        return this.login;
+        this.clientLogin = clientLogin;
     }
     
-    public void setLogin(String login)
+    /**
+     * logOutButton action
+     */
+    public void logOutAction(Event event)
+    throws Exception
     {
-        this.login = login;
+        ViewMethods.logOutAction(event, this, this.clientLogin, this.model);
     }
+    
     
     /**
      * refresh data
@@ -82,10 +86,10 @@ public class TicketView
         try
         {
             this.nrOfTicketsLabel.setText("Number of tickets: " + this.model
-                    .getNumberOfTickets(this.login));
+                    .getNumberOfTickets(this.clientLogin));
             
             this.maxTicketPriceLabel.setText("Maximum price: " + this.model
-                    .getMaxTicketPrice(this.login));
+                    .getMaxTicketPrice(this.clientLogin));
         }
         catch (SQLException ex)
         {
@@ -93,18 +97,31 @@ public class TicketView
         }
     }
     
+    /**
+     * Shows performers related to ticket.
+     */
     public void showPerformersAction()
     {
         this.performerTable.setItems(getPerformer());
     }
     
+    /**
+     * Change scene to client scene.
+     *
+     * @param event is necessary to get primary stage
+     */
     public void changeSceneClientAction(Event event)
     throws Exception
     {
-        ViewMethods.changeSceneClientAction(event, this, this.login,
+        ViewMethods.changeSceneClientAction(event, this, this.clientLogin,
                 this.model);
     }
     
+    /**
+     * Ticket was double clicked.
+     *
+     * @param event to recognise clicked action
+     */
     public void doubleClickedTickedAction(MouseEvent event)
     {
         if (event.getButton().equals(MouseButton.PRIMARY))
@@ -116,6 +133,18 @@ public class TicketView
         }
     }
     
+    /**
+     * Change scene to events scene.
+     *
+     * @param event is necessary to get primary stage
+     */
+    public void changeSceneEventsAction(Event event)
+    throws Exception
+    {
+        ViewMethods.changeSceneEventsAction(event, this, this.clientLogin,
+                this.model);
+    }
+    
     private ObservableList<TicketDB> getTickets()
     {
         ObservableList<TicketDB> ticketsObservable = FXCollections
@@ -124,7 +153,7 @@ public class TicketView
         
         try
         {
-            tickets = this.model.getClientTickets(this.login);
+            tickets = this.model.getClientTickets(this.clientLogin);
         }
         catch (SQLException ex)
         {
@@ -167,12 +196,5 @@ public class TicketView
         }
         
         return performerObservable;
-    }
-    
-    public void changeSceneEventsAction(Event event)
-    throws Exception
-    {
-        ViewMethods.changeSceneEventsAction(event, this, this.login,
-                this.model);
     }
 }

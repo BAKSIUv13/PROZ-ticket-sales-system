@@ -1,6 +1,5 @@
 package PROZ;
 
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,33 +17,36 @@ import javafx.stage.Stage;
 import java.sql.SQLException;
 
 /**
- * LogInView create a model and it's connected to view.
+ * LogInView.fxml class controller.
  *
  * @author BAKSIUv13
  */
 public class LogInView
 {
-    @FXML private TextField login;
+    @FXML private TextField loginField;
     
-    @FXML private PasswordField password;
+    @FXML private PasswordField passwordField;
     
-    @FXML private Label signInFailed;
+    @FXML private Label signInFailedLabel;
     
     private Model model;
     
     /**
-     * If login and password is correct, change stage. Else, try again.
+     * If loginField and passwordField is correct, change stage. Else, try
+     * again.
+     *
+     * @param event is necessary to get primary stage
      */
     public void signInAction(Event event)
     throws Exception
     {
-        String login = this.login.getText();
+        String login = this.loginField.getText();
         try
         {
-            if (this.model.isCorrectLogIn(login, this.password.getText()))
+            if (this.model.isCorrectLogIn(login, this.passwordField.getText()))
             {
-                this.signInFailed.setVisible(false);
-    
+                this.signInFailedLabel.setVisible(false);
+                
                 // get root
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 Parent root = fxmlLoader.load(
@@ -54,8 +56,8 @@ public class LogInView
                 ClientView clientViewController = (ClientView) fxmlLoader
                         .getController();
                 clientViewController.setModel(this.model);
-                clientViewController.setLogin(login);
-    
+                clientViewController.setClientLogin(login);
+                
                 // get stage
                 Stage primaryStage = (Stage) ((Node) event.getSource())
                         .getScene().getWindow();
@@ -76,7 +78,7 @@ public class LogInView
             }
             else
             {
-                this.signInFailed.setVisible(true);
+                this.signInFailedLabel.setVisible(true);
             }
         }
         catch (SQLException ex)
@@ -86,7 +88,10 @@ public class LogInView
     }
     
     /**
-     * If login and password is correct, change stage. Else, try again.
+     * If loginField and passwordField is correct, change stage. Else, try
+     * again.
+     *
+     * @param event is key pressed on the keyboard
      */
     public void logInEnterAction(KeyEvent event)
     throws Exception
@@ -99,8 +104,10 @@ public class LogInView
     
     /**
      * Change scene.
+     *
+     * @param event is necessary to get primary stage
      */
-    public void signUpAction(ActionEvent event)
+    public void signUpAction(Event event)
     throws Exception
     {
         // get root
@@ -124,8 +131,8 @@ public class LogInView
         this.model = model;
     }
     
-    public void setLogin(String text)
+    public void setLoginField(String text)
     {
-        this.login.setText(text);
+        this.loginField.setText(text);
     }
 }

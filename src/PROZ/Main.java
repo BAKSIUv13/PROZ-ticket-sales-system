@@ -1,7 +1,7 @@
 /*
  * Ticket Sales System
  * Bartlomiej Kulik
- * 3 June 2018
+ * 4 June 2018
  */
 package PROZ;
 
@@ -13,7 +13,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
- * Starting class in Ticket Sales System.
+ * Starting class in High Quality Ticket Sales System.
  *
  * @author BAKSIUv13
  */

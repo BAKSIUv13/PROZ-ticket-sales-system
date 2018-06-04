@@ -27,6 +27,8 @@ import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 /**
+ * EventsView.fxml controller class.
+ *
  * @author BAKSIUv13
  */
 public class EventsView
@@ -44,11 +46,14 @@ public class EventsView
     @FXML private TableColumn<CulturalEventDB, String> cityColumnSearch;
     @FXML private TableColumn<CulturalEventDB, String> streetColumnSearch;
     
-    @FXML private TextField performer;
+    @FXML private TextField performerField;
     
     private Model model;
-    private String login;
+    private String clientLogin;
     
+    /**
+     * sets column CellValueFactory
+     */
     @Override public void initialize(URL location, ResourceBundle resources)
     {
         this.idColumnClient.setCellValueFactory(
@@ -72,23 +77,38 @@ public class EventsView
                 SelectionMode.MULTIPLE);
     }
     
+    /**
+     * Logs out.
+     *
+     * @param event is necessary to get primary stage
+     */
     public void logOutAction(Event event)
     throws Exception
     {
-        ViewMethods.logOutAction(event, this, this.login, this.model);
+        ViewMethods.logOutAction(event, this, this.clientLogin, this.model);
     }
     
+    /**
+     * Change scene to ticket scene.
+     *
+     * @param event is necessary to get primary stage
+     */
     public void changeSceneTicketAction(Event event)
     throws Exception
     {
-        ViewMethods.changeSceneTicketAction(event, this, this.login,
+        ViewMethods.changeSceneTicketAction(event, this, this.clientLogin,
                 this.model);
     }
     
+    /**
+     * Change scene to client scene.
+     *
+     * @param event is necessary to get primary stage
+     */
     public void changeSceneClientAction(Event event)
     throws Exception
     {
-        ViewMethods.changeSceneClientAction(event, this, this.login,
+        ViewMethods.changeSceneClientAction(event, this, this.clientLogin,
                 this.model);
     }
     
@@ -97,11 +117,16 @@ public class EventsView
         this.model = model;
     }
     
-    public void setLogin(String login)
+    public void setClientLogin(String clientLogin)
     {
-        this.login = login;
+        this.clientLogin = clientLogin;
     }
     
+    /**
+     * Returns client events in observable list.
+     *
+     * @return client events in observable list.
+     */
     private ObservableList<CulturalEventDB> getClientEvents()
     {
         ObservableList<CulturalEventDB> eventsObservable = FXCollections
@@ -110,7 +135,7 @@ public class EventsView
         
         try
         {
-            events = this.model.getClientEvents(this.login);
+            events = this.model.getClientEvents(this.clientLogin);
         }
         catch (SQLException ex)
         {
@@ -125,16 +150,24 @@ public class EventsView
         return eventsObservable;
     }
     
+    /**
+     * Refreshes client events.
+     */
     public void refreshClientEvents()
     throws Exception
     {
         this.clientEventsTable.setItems(getClientEvents());
     }
     
+    /**
+     * Searches and shows searched events related to client order.
+     *
+     * @param event is necessary for recognize keyboard event
+     */
     public void searchEvents(Event event)
     {
-        String performer = this.performer.getText();
-        LinkedList<CulturalEventHasPerformer> eventHasPerformers = new
+        String performer = this.performerField.getText();
+        LinkedList<CulturalEventHasPerformerDB> eventHasPerformers = new
                 LinkedList<>();
         LinkedList<Integer> eventIds = new LinkedList<>();
         ObservableList<CulturalEventDB> eventObservable = FXCollections
@@ -149,7 +182,7 @@ public class EventsView
             ViewMethods.exceptionHandler(ex);
         }
         
-        for (CulturalEventHasPerformer eventAndPerformer : eventHasPerformers)
+        for (CulturalEventHasPerformerDB eventAndPerformer : eventHasPerformers)
         {
             if (eventAndPerformer.getPerformerName().contains(performer))
             {
@@ -180,6 +213,9 @@ public class EventsView
         this.searchEventsTable.setItems(eventObservable);
     }
     
+    /**
+     * Create new stage to buy tickets.
+     */
     public void buySelectedEventsAction()
     throws Exception
     {
@@ -195,7 +231,7 @@ public class EventsView
         OrderView orderViewViewController = (OrderView) fxmlLoader
                 .getController();
         orderViewViewController.setModel(model);
-        orderViewViewController.setLogin(login);
+        orderViewViewController.setClientLogin(clientLogin);
         orderViewViewController.setSelectedEvents(selectedEvents);
         
         Scene orderScene = new Scene(root);
@@ -210,6 +246,9 @@ public class EventsView
         orderStage.showAndWait();
     }
     
+    /**
+     * @param event key pressed on the keyboard
+     */
     public void searchEnterAction(KeyEvent event)
     {
         if (event.getCode().equals(KeyCode.ENTER))

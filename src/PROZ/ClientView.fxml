@@ -34,7 +34,7 @@
                         onAction="#updateClientAction" prefHeight="25.0"
                         prefWidth="187.0" text="Update Data"/>
                 <Button alignment="CENTER" mnemonicParsing="false"
-                        onAction="#changePassword" prefHeight="25.0"
+                        onAction="#changePasswordAction" prefHeight="25.0"
                         prefWidth="196.0" text="Change Password"/>
                 <Button alignment="CENTER" mnemonicParsing="false"
                         onAction="#deleteAccountAction" prefHeight="25.0"
@@ -71,10 +71,10 @@
                                       size="24.0"/>
                             </font>
                         </Label>
-                        <TextField fx:id="name" promptText="name"/>
-                        <TextField fx:id="surName" promptText="surname"/>
-                        <TextField fx:id="city" promptText="city"/>
-                        <Label fx:id="updateInfo" alignment="CENTER"
+                        <TextField fx:id="nameField" promptText="name"/>
+                        <TextField fx:id="surNameField" promptText="surname"/>
+                        <TextField fx:id="cityField" promptText="city"/>
+                        <Label fx:id="updateInfoLabel" alignment="CENTER"
                                contentDisplay="CENTER" prefHeight="17.0"
                                prefWidth="347.0" text="Data updated!"
                                textFill="#6bd700" visible="false"/>
@@ -96,12 +96,13 @@
                                       size="24.0"/>
                             </font>
                         </Label>
-                        <PasswordField fx:id="currentPassword" prefHeight="25.0"
+                        <PasswordField fx:id="currentPasswordField"
+                                       prefHeight="25.0"
                                        prefWidth="152.0"
                                        promptText="current password"/>
-                        <PasswordField fx:id="newPassword"
+                        <PasswordField fx:id="newPasswordField"
                                        promptText="new password"/>
-                        <Label fx:id="passwordInfo" alignment="CENTER"
+                        <Label fx:id="passwordInfoLabel" alignment="CENTER"
                                contentDisplay="CENTER" prefHeight="1.0"
                                prefWidth="204.0" textFill="#b90000"
                                visible="false"/>

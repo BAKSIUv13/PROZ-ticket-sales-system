@@ -6,21 +6,17 @@ import java.util.LinkedList;
 /**
  * This class is a main class responsible for data.
  * It helps connect to the database, disconnect to the database and
- * provides methods to modify the database.
+ * provides methods to modify the database. It also allows you to extract
+ * information from the database.
  *
  * @author BAKSIUv13
  */
 public class Model
 {
+    // passwordField must have more than 4 characters
     static final public int MIN_PASSWORD_LENGTH = 4;
-    static private int counter; // only getter...
-    
-    static
-    {
-        counter = 0;
-    }
-    
-    private Connection connection; // to MySQL server
+    // MySQL connection
+    private Connection connection;
     
     /**
      * It connect to the DataBase.
@@ -40,13 +36,6 @@ public class Model
             throw new SQLException("DriverManager.getConnection() returns "
                                    + "null");
         }
-    
-        ++counter;
-    }
-    
-    public static int getCounter()
-    {
-        return counter;
     }
     
     // Specific model methods below
@@ -67,21 +56,23 @@ public class Model
      *
      * @param client first argument in constructor must be given not null and
      *               not empty string - primary key
+     * @throws SQLException when client loginField is null or empty string or
+     *                      occur problem with the database
      */
     public void addClient(ClientDB client)
     throws SQLException
     {
         PreparedStatement preparedStatement = this.connection
-                .prepareStatement("INSERT INTO client "
-                                  + "VALUES (?, ?, ?, ?, ?);");
-    
+                .prepareStatement("insert into client "
+                                  + "values (?, ?, ?, ?, ?);");
+        
         if (client.getLogin() != null && !client.getLogin().equals(""))
         {
             preparedStatement.setString(1, client.getLogin());
         }
         else
         {
-            throw new SQLException("Primary key login is empty or null");
+            throw new SQLException("Primary key loginField is empty or null");
         }
         
         if (client.getName() != null && !client.getName().equals(""))
@@ -110,7 +101,9 @@ public class Model
         {
             preparedStatement.setNull(4, java.sql.Types.VARCHAR);
         }
-        // set password as null - we change it in other query, because some of
+    
+        // set passwordField as null - we change it in other query, because
+        // some of
         // users can be not register in system
         preparedStatement.setNull(5, Types.INTEGER);
         
@@ -121,6 +114,8 @@ public class Model
      * Remove client and clients tickets form the DataBase.
      *
      * @param clientLogin first argument must be given not null - primary key
+     * @throws SQLException when clientLogin is null or occur problem with
+     *                      the database
      */
     public void removeClient(String clientLogin)
     throws SQLException
@@ -133,9 +128,9 @@ public class Model
         }
         
         PreparedStatement preparedStatement = this.connection
-                .prepareStatement("DELETE FROM client "
-                                  + "WHERE login = ?;");
-    
+                .prepareStatement("delete from client "
+                                  + "where login = ?;");
+        
         if (clientLogin != null)
         {
             preparedStatement.setString(1, clientLogin);
@@ -152,14 +147,16 @@ public class Model
      * Remove ticket from the DataBase.
      *
      * @param ticketId first argument must be given not null - primary key
+     * @throws SQLException when ticketId is null or occur problem with the
+     *                      database
      */
     public void removeTicket(Integer ticketId)
     throws SQLException
     {
         PreparedStatement preparedStatement = this.connection
-                .prepareStatement("DELETE FROM ticket "
-                                  + "WHERE idTicket = ?;");
-    
+                .prepareStatement("delete from ticket "
+                                  + "where idTicket = ?;");
+        
         if (ticketId != null)
         {
             preparedStatement.setInt(1, ticketId);
@@ -177,18 +174,20 @@ public class Model
      *
      * @param client first argument in constructor must be given not null -
      *               primary key
+     * @throws SQLException when client loginField is null or occur problem with
+     *                      the database
      */
     public void updateClient(ClientDB client)
     throws SQLException
     {
         PreparedStatement preparedStatement = this.connection
-                .prepareStatement("UPDATE client "
-                                  + "SET "
+                .prepareStatement("update client "
+                                  + "set "
                                   + "name = ?, "
                                   + "surname = ?, "
                                   + "city = ? "
-                                  + "WHERE login = ?;");
-    
+                                  + "where login = ?;");
+        
         if (client.getName() != null && !client.getName().equals(""))
         {
             preparedStatement.setString(1, client.getName());
@@ -222,24 +221,28 @@ public class Model
         }
         else
         {
-            throw new SQLException("Primary key login is empty or null");
+            throw new SQLException("Primary key loginField is empty or null");
         }
         
         preparedStatement.executeUpdate();
     }
     
     /**
+     * Returns client ticket.
+     *
      * @param clientLogin first argument must be given not null - primary key
      * @return LinkedList containing tickets
+     * @throws SQLException when clientLogin is null or occur problem with
+     *                      the database
      */
     public LinkedList<TicketDB> getClientTickets(String clientLogin)
     throws SQLException
     {
         PreparedStatement preparedStatement = this.connection
-                .prepareStatement("SELECT * "
-                                  + "FROM ticket "
-                                  + "WHERE Client_login = ?;");
-    
+                .prepareStatement("select * "
+                                  + "from ticket "
+                                  + "where Client_login = ?;");
+        
         if (clientLogin != null)
         {
             preparedStatement.setString(1, clientLogin);
@@ -263,47 +266,26 @@ public class Model
     }
     
     /**
-     * @return all cultural events
-     */
-    public LinkedList<CulturalEventDB> getCulturalEvents()
-    throws SQLException
-    {
-        PreparedStatement preparedStatement = this.connection
-                .prepareStatement("SELECT * "
-                                  + "FROM culturalevent;");
-        
-        ResultSet resultSet = preparedStatement.executeQuery();
-        
-        LinkedList<CulturalEventDB> events = new LinkedList<>();
-        while (resultSet.next())
-        {
-            events.add(new CulturalEventDB(resultSet.getInt(1),
-                    resultSet.getString(2), resultSet.getDate(3),
-                    resultSet.getInt(4), resultSet.getString(5),
-                    resultSet.getString(6), resultSet.getInt(7)));
-        }
-        
-        return events;
-    }
-    
-    /**
-     * @param id ticket - not null
-     * @return ticket with given id
+     * Returns cultural event with given id.
+     *
+     * @param id is cultural event id.
+     * @return cultural event with given id
+     * @throws SQLException when id is null or occur problem with the database
      */
     public CulturalEventDB getCulturalEvent(Integer id)
     throws SQLException
     {
         PreparedStatement preparedStatement = this.connection
-                .prepareStatement("SELECT * "
-                                  + "FROM culturalevent "
-                                  + "WHERE idCulturalEvent = ?;");
+                .prepareStatement("select * "
+                                  + "from culturalevent "
+                                  + "where idCulturalEvent = ?;");
         if (id != null)
         {
             preparedStatement.setInt(1, id);
         }
         else
         {
-            throw new SQLException("id is null");
+            throw new SQLException("Primary key id is null");
         }
         
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -322,25 +304,29 @@ public class Model
     }
     
     /**
+     * Changes client passwordField.
+     *
      * @param clientLogin first argument must be given not null - primary key
      * @param password    must be given not null
+     * @throws SQLException when clientLogin or passwordField are null or occur
+     *                      problem with the dataabse
      */
     public void changePassword(String clientLogin, String password)
     throws SQLException
     {
         PreparedStatement preparedStatement = this.connection
-                .prepareStatement("UPDATE client "
-                                  + "SET "
+                .prepareStatement("update client "
+                                  + "set "
                                   + "password = ? "
-                                  + "WHERE login = ?;");
-    
+                                  + "where login = ?;");
+        
         if (password != null)
         {
             preparedStatement.setInt(1, password.hashCode());
         }
         else
         {
-            throw new SQLException("password is null");
+            throw new SQLException("passwordField is null");
         }
     
         if (clientLogin != null)
@@ -356,17 +342,21 @@ public class Model
     }
     
     /**
+     * Checks if is correct loginField.
+     *
      * @param clientLogin first argument must be given not null - primary key
      * @return true if LogIn is correct
+     * @throws SQLException when clientLogin is null or occur problem with
+     *                      the database
      */
     public boolean isCorrectLogIn(String clientLogin, String password)
     throws SQLException
     {
         PreparedStatement preparedStatement = this.connection
-                .prepareStatement("SELECT password "
-                                  + "FROM client "
-                                  + "WHERE login = ? ;");
-    
+                .prepareStatement("select password "
+                                  + "from client "
+                                  + "where login = ? ;");
+        
         if (clientLogin != null)
         {
             preparedStatement.setString(1, clientLogin);
@@ -396,18 +386,22 @@ public class Model
     }
     
     /**
+     * Returns number of client tickets.
+     *
      * @param clientLogin first argument must be given not null - primary key
      * @return number of tickets belonging to the client
+     * @throws SQLException when clientLogin is null or occur problem with
+     *                      the database
      */
     public int getNumberOfTickets(String clientLogin)
     throws SQLException
     {
         PreparedStatement preparedStatement = this.connection
-                .prepareStatement("SELECT COUNT(idTicket) "
-                                  + "FROM ticket "
-                                  + "WHERE Client_login = ? "
-                                  + "GROUP BY Client_login;");
-    
+                .prepareStatement("select count(idTicket) "
+                                  + "from ticket "
+                                  + "where Client_login = ? "
+                                  + "group by Client_login;");
+        
         if (clientLogin != null)
         {
             preparedStatement.setString(1, clientLogin);
@@ -430,17 +424,21 @@ public class Model
     }
     
     /**
+     * Returns the maximum price of the client's ticket.
+     *
      * @param clientLogin first argument must be given not null - primary key
-     * @return max client ticket price
+     * @return the maximum price of the client's ticket
+     * @throws SQLException when clientLogin is null or occur problem with
+     *                      the database
      */
     public int getMaxTicketPrice(String clientLogin)
     throws SQLException
     {
         PreparedStatement preparedStatement = this.connection
-                .prepareStatement("SELECT MAX(price) "
-                                  + "FROM ticket "
-                                  + "WHERE Client_login = ?;");
-    
+                .prepareStatement("select max(price) "
+                                  + "from ticket "
+                                  + "where Client_login = ?;");
+        
         if (clientLogin != null)
         {
             preparedStatement.setString(1, clientLogin);
@@ -463,17 +461,21 @@ public class Model
     }
     
     /**
+     * Checks whether a given client exists in the database.
+     *
      * @param clientLogin first argument must be given not null - primary key
      * @return true, if client is in the DataBase
+     * @throws SQLException when clientLogin is null or occur problem with
+     *                      the database
      */
     public boolean isClient(String clientLogin)
     throws SQLException
     {
         PreparedStatement preparedStatement = this.connection
-                .prepareStatement("SELECT login "
-                                  + "FROM client "
-                                  + "WHERE login = ? ;");
-    
+                .prepareStatement("select login "
+                                  + "from client "
+                                  + "where login = ? ;");
+        
         if (clientLogin != null)
         {
             preparedStatement.setString(1, clientLogin);
@@ -496,20 +498,24 @@ public class Model
     }
     
     /**
+     * Returns performers related with ticketId.
+     *
      * @param ticketId first argument must be given not null - primary key
      * @return performers related with ticket
+     * @throws SQLException when ticketId is null or occur problem with the
+     *                      database
      */
     public LinkedList<PerformerDB> getPerformers(Integer ticketId)
     throws SQLException
     {
         PreparedStatement preparedStatement = this.connection
-                .prepareStatement("SELECT Performer_name "
-                                  + "FROM culturalevent_has_performer "
-                                  + "WHERE CulturalEvent_idCulturalEvent = "
-                                  + "(SELECT CulturalEvent_idCulturalEvent "
-                                  + "FROM ticket "
-                                  + "WHERE idTicket =  ?);");
-    
+                .prepareStatement("select Performer_name "
+                                  + "from culturalevent_has_performer "
+                                  + "where CulturalEvent_idCulturalEvent = "
+                                  + "(select CulturalEvent_idCulturalEvent "
+                                  + " from ticket "
+                                  + " where idTicket =  ?);");
+        
         if (ticketId != null)
         {
             preparedStatement.setInt(1, ticketId);
@@ -531,8 +537,12 @@ public class Model
     }
     
     /**
+     * Returns client events.
+     *
      * @param clientLogin first argument must be given not null - primary key
      * @return client events
+     * @throws SQLException when clientLogin is null or occur problem with
+     *                      the database
      */
     public LinkedList<CulturalEventDB> getClientEvents(String clientLogin)
     throws SQLException
@@ -572,46 +582,42 @@ public class Model
         return events;
     }
     
-    public LinkedList<PerformerDB> getAllPerformers()
+    /**
+     * Returns all events and related performers.
+     *
+     * @return all events and related performers.
+     * @throws SQLException when occur problem with the database
+     */
+    public LinkedList<CulturalEventHasPerformerDB> getEventsAndPerformers()
     throws SQLException
     {
         PreparedStatement preparedStatement = this.connection
-                .prepareStatement("SELECT name "
-                                  + "FROM performer;");
+                .prepareStatement("select * "
+                                  + "from culturalevent_has_performer;");
         
         ResultSet resultSet = preparedStatement.executeQuery();
-        
-        LinkedList<PerformerDB> performers = null;
-        
-        while (resultSet.next())
-        {
-            performers.add(new PerformerDB(resultSet.getString(1)));
-        }
-        
-        return performers;
-    }
     
-    public LinkedList<CulturalEventHasPerformer> getEventsAndPerformers()
-    throws SQLException
-    {
-        PreparedStatement preparedStatement = this.connection
-                .prepareStatement("SELECT * "
-                                  + "FROM culturalevent_has_performer;");
-        
-        ResultSet resultSet = preparedStatement.executeQuery();
-        
-        LinkedList<CulturalEventHasPerformer> eventsAndPerformers = new
+        LinkedList<CulturalEventHasPerformerDB> eventsAndPerformers = new
                 LinkedList<>();
         
         while (resultSet.next())
         {
-            eventsAndPerformers.add(new CulturalEventHasPerformer(resultSet
+            eventsAndPerformers.add(new CulturalEventHasPerformerDB(resultSet
                     .getInt(1), resultSet.getString(2)));
         }
         
         return eventsAndPerformers;
     }
     
+    /**
+     * Adds ticket related with event and client to the database.
+     *
+     * @param event       first argument in constructor must be given not null -
+     *                    primary key
+     * @param clientLogin must be given not null - primary key
+     * @throws SQLException when event id or clientLogin is null or occur
+     *                      problem with the database
+     */
     public void addTicket(CulturalEventDB event, String clientLogin)
     throws SQLException
     {
@@ -628,7 +634,7 @@ public class Model
         }
         else
         {
-            throw new SQLException("clientLogin is null");
+            throw new SQLException("Primary key clientLogin is null");
         }
         
         if (event.getIdCulturalEvent() != null)
@@ -637,7 +643,7 @@ public class Model
         }
         else
         {
-            throw new SQLException("event doesn't have id");
+            throw new SQLException("Primary key event id is null");
         }
         
         preparedStatement.executeUpdate();

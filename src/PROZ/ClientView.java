@@ -9,41 +9,44 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 /**
+ * ClientView.fxml controller class.
+ *
  * @author BAKSIUv13
  */
 public class ClientView
 {
-    @FXML private TextField name;
-    @FXML private TextField surName;
-    @FXML private TextField city;
+    @FXML private TextField nameField;
+    @FXML private TextField surNameField;
+    @FXML private TextField cityField;
     
-    @FXML private PasswordField currentPassword;
-    @FXML private PasswordField newPassword;
+    @FXML private PasswordField currentPasswordField;
+    @FXML private PasswordField newPasswordField;
     
-    @FXML private Label passwordInfo;
-    @FXML private Label updateInfo;
+    @FXML private Label passwordInfoLabel;
+    @FXML private Label updateInfoLabel;
     
     private Model model;
-    private String login;
+    private String clientLogin;
     
     /**
-     * update client data
+     * Update client data.
      */
-    public void updateClientAction(Event event)
+    public void updateClientAction()
     {
-        this.updateInfo.setVisible(false);
-        
-        String name = this.name.getText();
+        this.updateInfoLabel.setVisible(false);
+    
+        String name = this.nameField.getText();
         if (name.equals(""))
         {
             name = null;
         }
-        String surName = this.surName.getText();
+    
+        String surName = this.surNameField.getText();
         if (surName.equals(""))
         {
             surName = null;
         }
-        String city = this.city.getText();
+        String city = this.cityField.getText();
         if (city.equals(""))
         {
             city = null;
@@ -51,9 +54,10 @@ public class ClientView
         
         try
         {
-            this.model.updateClient(new ClientDB(this.login, name, surName,
-                    city));
-            this.updateInfo.setVisible(true);
+            this.model.updateClient(
+                    new ClientDB(this.clientLogin, name, surName,
+                            city));
+            this.updateInfoLabel.setVisible(true);
         }
         catch (SQLException ex)
         {
@@ -61,40 +65,54 @@ public class ClientView
         }
     }
     
-    public void changePassword(Event event)
+    /**
+     * Changes passwordField.
+     */
+    public void changePasswordAction()
     {
-        this.passwordInfo.setText("");
-        
-        String currentPassword = this.currentPassword.getText();
-        String newPassword = this.newPassword.getText();
+        this.passwordInfoLabel.setText("");
+    
+        String currentPassword = this.currentPasswordField.getText();
+        String newPassword = this.newPasswordField.getText();
         
         if (isCorrectPassword(currentPassword))
         {
             try
             {
-                this.model.changePassword(this.login, newPassword);
+                this.model.changePassword(this.clientLogin, newPassword);
             }
             catch (SQLException ex)
             {
                 ViewMethods.exceptionHandler(ex);
             }
     
-            this.passwordInfo.setTextFill(Color.web("#6bd700"));
-            this.passwordInfo.setText("Password changed");
+            this.passwordInfoLabel.setVisible(true);
+            this.passwordInfoLabel.setTextFill(Color.web("#6bd700"));
+            this.passwordInfoLabel.setText("Password changed");
         }
         else
         {
-            this.passwordInfo.setTextFill(Color.web("#b90000"));
-            this.passwordInfo.setText("Incorrect current password");
+            this.passwordInfoLabel.setTextFill(Color.web("#b90000"));
+            this.passwordInfoLabel.setText("Incorrect current passwordField");
         }
     }
     
+    /**
+     * Logs out.
+     *
+     * @param event is necessary to get primary stage
+     */
     public void logOutAction(Event event)
     throws Exception
     {
-        ViewMethods.logOutAction(event, this, this.login, this.model);
+        ViewMethods.logOutAction(event, this, this.clientLogin, this.model);
     }
     
+    /**
+     * Deletes client account.
+     *
+     * @param event is necessary to get primary stage
+     */
     public void deleteAccountAction(Event event)
     throws Exception
     {
@@ -107,7 +125,7 @@ public class ClientView
         {
             try
             {
-                this.model.removeClient(this.login);
+                this.model.removeClient(this.clientLogin);
             }
             catch (SQLException ex)
             {
@@ -123,14 +141,9 @@ public class ClientView
         }
     }
     
-    public String getLogin()
+    public void setClientLogin(String clientLogin)
     {
-        return this.login;
-    }
-    
-    public void setLogin(String login)
-    {
-        this.login = login;
+        this.clientLogin = clientLogin;
     }
     
     public void setModel(Model model)
@@ -138,12 +151,19 @@ public class ClientView
         this.model = model;
     }
     
+    /**
+     * Checks if is correct passwordField.
+     *
+     * @param password to check
+     * @return tru, if passwordField is correct.
+     */
     private boolean isCorrectPassword(String password)
     {
         boolean isCorrectPassword = false;
         try
         {
-            isCorrectPassword = this.model.isCorrectLogIn(this.login, password);
+            isCorrectPassword = this.model.isCorrectLogIn(this.clientLogin,
+                    password);
         }
         catch (SQLException ex)
         {
@@ -153,17 +173,27 @@ public class ClientView
         return isCorrectPassword;
     }
     
+    /**
+     * Change scene to ticket scene.
+     *
+     * @param event is necessary to get primary stage
+     */
     public void changeSceneTicketAction(Event event)
     throws Exception
     {
-        ViewMethods.changeSceneTicketAction(event, this, this.login,
+        ViewMethods.changeSceneTicketAction(event, this, this.clientLogin,
                 this.model);
     }
     
+    /**
+     * Change scene to event scene.
+     *
+     * @param event is necessary to get primary stage
+     */
     public void changeSceneEventsAction(Event event)
     throws Exception
     {
-        ViewMethods.changeSceneEventsAction(event, this, this.login,
+        ViewMethods.changeSceneEventsAction(event, this, this.clientLogin,
                 this.model);
     }
 }

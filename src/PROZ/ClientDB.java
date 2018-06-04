@@ -2,7 +2,7 @@ package PROZ;
 
 /**
  * ClientDB is a Class which helps to send a data between DataBase and
- * Model&LogInView.
+ * Model&Controllers.
  *
  * @author BAKSIUv13
  */

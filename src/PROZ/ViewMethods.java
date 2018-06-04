@@ -10,10 +10,17 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
+ * Auxiliary methods for the view.
+ *
  * @author BAKSIUv13
  */
 public class ViewMethods
 {
+    /**
+     * Show error dialog and ends program.
+     *
+     * @param ex is exception to handle
+     */
     static public void exceptionHandler(Throwable ex)
     {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -38,7 +45,7 @@ public class ViewMethods
         LogInView logInViewController = (LogInView) fxmlLoader
                 .getController();
         logInViewController.setModel(model);
-        logInViewController.setLogin(login);
+        logInViewController.setLoginField(login);
         
         // get stage
         Stage primaryStage = (Stage) ((Node) event.getSource())
@@ -72,7 +79,7 @@ public class ViewMethods
         ClientView clientViewController = (ClientView) fxmlLoader
                 .getController();
         clientViewController.setModel(model);
-        clientViewController.setLogin(login);
+        clientViewController.setClientLogin(login);
         
         // set new stage parameters
         Stage window = (Stage) ((Node) event.getSource()).getScene()
@@ -93,7 +100,7 @@ public class ViewMethods
         TicketView ticketViewController = (TicketView) fxmlLoader
                 .getController();
         ticketViewController.setModel(model);
-        ticketViewController.setLogin(login);
+        ticketViewController.setClientLogin(login);
         ticketViewController.refreshTicketsAction();
         
         // set new stage parameters
@@ -115,7 +122,7 @@ public class ViewMethods
         EventsView eventsViewController = (EventsView) fxmlLoader
                 .getController();
         eventsViewController.setModel(model);
-        eventsViewController.setLogin(login);
+        eventsViewController.setClientLogin(login);
         eventsViewController.refreshClientEvents();
         
         // set new stage parameters

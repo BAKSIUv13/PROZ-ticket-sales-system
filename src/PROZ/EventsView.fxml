@@ -32,7 +32,8 @@
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
             </padding>
             <children>
-                <TextField fx:id="performer" onKeyPressed="#searchEnterAction"
+                <TextField fx:id="performerField"
+                           onKeyPressed="#searchEnterAction"
                            promptText="performer"/>
                 <Button alignment="CENTER" contentDisplay="CENTER"
                         mnemonicParsing="false" onAction="#searchEvents"

@@ -11,7 +11,7 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="PROZ.RegisterView">
     <children>
-        <Button fx:id="signUp" layoutX="197.0" layoutY="391.0"
+        <Button fx:id="signUpButton" layoutX="197.0" layoutY="391.0"
                 mnemonicParsing="false" onAction="#signUpAction"
                 text="Sign Up"/>
         <VBox layoutX="16.0" layoutY="14.0" prefHeight="301.0" prefWidth="278.0"
@@ -20,25 +20,26 @@
                 <Insets bottom="32.0" left="32.0" right="32.0" top="96.0"/>
             </padding>
             <children>
-                <TextField fx:id="login" onKeyPressed="#signUpEnterAction"
-                           promptText="login*"/>
-                <PasswordField fx:id="password"
+                <TextField fx:id="loginField" onKeyPressed="#signUpEnterAction"
+                           promptText="clientLogin*"/>
+                <PasswordField fx:id="passwordField"
                                onKeyPressed="#signUpEnterAction"
                                promptText="password*"/>
-                <PasswordField fx:id="passwordAgain"
+                <PasswordField fx:id="passwordAgainField"
                                onKeyPressed="#signUpEnterAction"
                                promptText="enter the password again*"/>
-                <TextField fx:id="name" onKeyPressed="#signUpEnterAction"
+                <TextField fx:id="nameField" onKeyPressed="#signUpEnterAction"
                            promptText="name"/>
-                <TextField fx:id="surName" onKeyPressed="#signUpEnterAction"
+                <TextField fx:id="surNameField"
+                           onKeyPressed="#signUpEnterAction"
                            promptText="surname"/>
-                <TextField fx:id="city" onKeyPressed="#signUpEnterAction"
+                <TextField fx:id="cityField" onKeyPressed="#signUpEnterAction"
                            promptText="cty"/>
                 <Label text="* You must complete these fields"
                        textFill="#838384"/>
             </children>
         </VBox>
-        <Button fx:id="goBack" layoutX="55.0" layoutY="391.0"
+        <Button fx:id="goBackButton" layoutX="55.0" layoutY="391.0"
                 mnemonicParsing="false" onAction="#goBackAction"
                 text="Go back"/>
         <BorderPane layoutX="55.0" layoutY="328.0" prefHeight="53.0"

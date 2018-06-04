@@ -2,7 +2,7 @@ package PROZ;
 
 /**
  * TicketDB is a Class which helps to send a data between DataBase and
- * Model&LogInView.
+ * Model&Controllers.
  *
  * @author BAKSIUv13
  */
@@ -27,15 +27,6 @@ public class TicketDB
         this.isPersonal = isPersonal;
         this.clientLogin = clientLogin;
         this.culturalEventId = culturalEventId;
-    }
-    
-    public TicketDB(TicketDB ticket)
-    {
-        this.idTicket = ticket.idTicket;
-        this.price = ticket.price;
-        this.isPersonal = ticket.isPersonal;
-        this.clientLogin = ticket.clientLogin;
-        this.culturalEventId = ticket.culturalEventId;
     }
     
     public Integer getIdTicket()

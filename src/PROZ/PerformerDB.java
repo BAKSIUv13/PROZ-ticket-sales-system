@@ -2,7 +2,7 @@ package PROZ;
 
 /**
  * PerformerDB is a Class which helps to send a data between DataBase and
- * Model&LogInView.
+ * Model&Controllers.
  *
  * @author BAKSIUv13
  */
@@ -13,11 +13,6 @@ public class PerformerDB
     public PerformerDB(String name)
     {
         this.name = name;
-    }
-    
-    public PerformerDB(PerformerDB performer)
-    {
-        this.name = performer.name;
     }
     
     public String getName()

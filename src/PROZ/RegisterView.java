@@ -18,27 +18,31 @@ import javafx.stage.Stage;
 import java.sql.SQLException;
 
 /**
+ * RegisterView.fxml controller.
+ *
  * @author BAKSIUv13
  */
 public class RegisterView
 {
     @FXML Label signUpLabel;
     
-    @FXML Button signUp;
-    @FXML Button goBack;
+    @FXML Button signUpButton;
+    @FXML Button goBackButton;
     
-    @FXML TextField login;
-    @FXML TextField name;
-    @FXML TextField surName;
-    @FXML TextField city;
+    @FXML TextField loginField;
+    @FXML TextField nameField;
+    @FXML TextField surNameField;
+    @FXML TextField cityField;
     
-    @FXML PasswordField password;
-    @FXML PasswordField passwordAgain;
+    @FXML PasswordField passwordField;
+    @FXML PasswordField passwordAgainField;
     
     private Model model;
     
     /**
      * Go back to LogInView.
+     *
+     * @param event is necessary to get primary stage
      */
     public void goBackAction(Event event)
     throws Exception
@@ -51,7 +55,7 @@ public class RegisterView
         // set model in new controller
         LogInView logInViewController = (LogInView) fxmlLoader.getController();
         logInViewController.setModel(this.model);
-        logInViewController.setLogin(this.login.getText());
+        logInViewController.setLoginField(this.loginField.getText());
         
         // set new stage parameters
         Stage window = (Stage) ((Node) event.getSource()).getScene()
@@ -65,15 +69,15 @@ public class RegisterView
     public void signUpAction()
     {
         this.signUpLabel.setText(""); // clear message
-        
-        if (this.login.getText().equals(""))
+    
+        if (this.loginField.getText().equals(""))
         {
             this.signUpLabel.setTextFill(Color.web("#b90000"));
-            this.signUpLabel.setText("Empty login field.");
+            this.signUpLabel.setText("Empty loginField field.");
         }
-        else if (!isClient(this.login.getText()))
+        else if (!isClient(this.loginField.getText()))
         {
-            if (this.password.getText().length()
+            if (this.passwordField.getText().length()
                 < this.model.MIN_PASSWORD_LENGTH)
             {
                 this.signUpLabel.setTextFill(Color.web("#b90000"));
@@ -81,16 +85,17 @@ public class RegisterView
                                          this.model.MIN_PASSWORD_LENGTH +
                                          " characters");
             }
-            else if (this.password.getText().equals(
-                    this.passwordAgain.getText()))
+            else if (this.passwordField.getText().equals(
+                    this.passwordAgainField.getText()))
             {
-                ClientDB clientDB = createClient(this.login.getText(),
-                        this.name.getText(), this.surName.getText(),
-                        this.city.getText());
+                ClientDB clientDB = createClient(this.loginField.getText(),
+                        this.nameField.getText(), this.surNameField.getText(),
+                        this.cityField.getText());
                 
                 addClient(clientDB);
-                changePassword(clientDB.getLogin(), this.password.getText());
-    
+                changePassword(clientDB.getLogin(),
+                        this.passwordField.getText());
+                
                 this.signUpLabel.setTextFill(Color.web("#6bd700"));
                 this.signUpLabel.setText("Signed Up!");
             }
@@ -103,13 +108,16 @@ public class RegisterView
         else
         {
             this.signUpLabel.setTextFill(Color.web("#b90000"));
-            this.signUpLabel.setText("Client with login: " + this.login
-                    .getText() + " exist");
+            this.signUpLabel.setText(
+                    "Client with loginField: " + this.loginField
+                            .getText() + " exist");
         }
     }
     
     /**
      * It try sign up a user.
+     *
+     * @param event is necessary to recognize key
      */
     public void signUpEnterAction(KeyEvent event)
     {
@@ -146,7 +154,7 @@ public class RegisterView
     }
     
     /**
-     * try add bew client
+     * try add given client
      */
     private void addClient(ClientDB client)
     {
