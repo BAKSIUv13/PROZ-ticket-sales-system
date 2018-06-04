@@ -31,13 +31,23 @@ public class LogInView
     
     private Model model;
     
+    public void setModel(Model model)
+    {
+        this.model = model;
+    }
+    
+    public void setLoginField(String text)
+    {
+        this.loginField.setText(text);
+    }
+    
     /**
      * If loginField and passwordField is correct, change stage. Else, try
      * again.
      *
      * @param event is necessary to get primary stage
      */
-    public void signInAction(Event event)
+    @FXML private void signInAction(Event event)
     throws Exception
     {
         String login = this.loginField.getText();
@@ -93,7 +103,7 @@ public class LogInView
      *
      * @param event is key pressed on the keyboard
      */
-    public void logInEnterAction(KeyEvent event)
+    @FXML private void logInEnterAction(KeyEvent event)
     throws Exception
     {
         if (event.getCode().equals(KeyCode.ENTER))
@@ -107,7 +117,7 @@ public class LogInView
      *
      * @param event is necessary to get primary stage
      */
-    public void signUpAction(Event event)
+    @FXML private void signUpAction(Event event)
     throws Exception
     {
         // get root
@@ -124,15 +134,5 @@ public class LogInView
         Stage window = (Stage) ((Node) event.getSource()).getScene()
                                                          .getWindow();
         window.setScene(new Scene(root));
-    }
-    
-    public void setModel(Model model)
-    {
-        this.model = model;
-    }
-    
-    public void setLoginField(String text)
-    {
-        this.loginField.setText(text);
     }
 }

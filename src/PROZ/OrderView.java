@@ -89,7 +89,7 @@ public class OrderView
     /**
      * regulationsRadioButton action.
      */
-    public void agreeAction()
+    @FXML private void agreeAction()
     {
         if (this.regulationsRadioButton.isSelected()
             && this.selectedEvents.size() > 0)
@@ -107,7 +107,7 @@ public class OrderView
      *
      * @param event is necessary to get primary stage
      */
-    public void cancelAction(Event event)
+    @FXML private void cancelAction(Event event)
     {
         // get stage
         Stage primaryStage = (Stage) ((Node) event.getSource())
@@ -119,7 +119,7 @@ public class OrderView
     /**
      * buyButton action
      */
-    public void buyAction()
+    @FXML private void buyAction()
     {
         try
         {

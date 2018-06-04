@@ -69,17 +69,16 @@ public class TicketView
     /**
      * logOutButton action
      */
-    public void logOutAction(Event event)
+    @FXML private void logOutAction(Event event)
     throws Exception
     {
         ViewMethods.logOutAction(event, this, this.clientLogin, this.model);
     }
     
-    
     /**
      * refresh data
      */
-    public void refreshTicketsAction()
+    @FXML public void refreshTicketsAction()
     {
         this.ticketTable.setItems(getTickets());
         
@@ -100,7 +99,7 @@ public class TicketView
     /**
      * Shows performers related to ticket.
      */
-    public void showPerformersAction()
+    @FXML private void showPerformersAction()
     {
         this.performerTable.setItems(getPerformer());
     }
@@ -110,7 +109,7 @@ public class TicketView
      *
      * @param event is necessary to get primary stage
      */
-    public void changeSceneClientAction(Event event)
+    @FXML private void changeSceneClientAction(Event event)
     throws Exception
     {
         ViewMethods.changeSceneClientAction(event, this, this.clientLogin,
@@ -122,7 +121,7 @@ public class TicketView
      *
      * @param event to recognise clicked action
      */
-    public void doubleClickedTickedAction(MouseEvent event)
+    @FXML private void doubleClickedTickedAction(MouseEvent event)
     {
         if (event.getButton().equals(MouseButton.PRIMARY))
         {
@@ -138,7 +137,7 @@ public class TicketView
      *
      * @param event is necessary to get primary stage
      */
-    public void changeSceneEventsAction(Event event)
+    @FXML private void changeSceneEventsAction(Event event)
     throws Exception
     {
         ViewMethods.changeSceneEventsAction(event, this, this.clientLogin,

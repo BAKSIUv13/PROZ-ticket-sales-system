@@ -39,12 +39,17 @@ public class RegisterView
     
     private Model model;
     
+    public void setModel(Model model)
+    {
+        this.model = model;
+    }
+    
     /**
      * Go back to LogInView.
      *
      * @param event is necessary to get primary stage
      */
-    public void goBackAction(Event event)
+    @FXML private void goBackAction(Event event)
     throws Exception
     {
         // get root
@@ -66,7 +71,7 @@ public class RegisterView
     /**
      * It try sign up a user.
      */
-    public void signUpAction()
+    @FXML private void signUpAction()
     {
         this.signUpLabel.setText(""); // clear message
     
@@ -119,7 +124,7 @@ public class RegisterView
      *
      * @param event is necessary to recognize key
      */
-    public void signUpEnterAction(KeyEvent event)
+    @FXML private void signUpEnterAction(KeyEvent event)
     {
         if (event.getCode().equals(KeyCode.ENTER))
         {
@@ -178,10 +183,5 @@ public class RegisterView
         {
             ViewMethods.exceptionHandler(ex);
         }
-    }
-    
-    public void setModel(Model model)
-    {
-        this.model = model;
     }
 }

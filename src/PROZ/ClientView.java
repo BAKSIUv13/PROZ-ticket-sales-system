@@ -28,10 +28,20 @@ public class ClientView
     private Model model;
     private String clientLogin;
     
+    public void setClientLogin(String clientLogin)
+    {
+        this.clientLogin = clientLogin;
+    }
+    
+    public void setModel(Model model)
+    {
+        this.model = model;
+    }
+    
     /**
      * Update client data.
      */
-    public void updateClientAction()
+    @FXML private void updateClientAction()
     {
         this.updateInfoLabel.setVisible(false);
     
@@ -68,7 +78,7 @@ public class ClientView
     /**
      * Changes passwordField.
      */
-    public void changePasswordAction()
+    @FXML private void changePasswordAction()
     {
         this.passwordInfoLabel.setText("");
     
@@ -102,7 +112,7 @@ public class ClientView
      *
      * @param event is necessary to get primary stage
      */
-    public void logOutAction(Event event)
+    @FXML private void logOutAction(Event event)
     throws Exception
     {
         ViewMethods.logOutAction(event, this, this.clientLogin, this.model);
@@ -113,7 +123,7 @@ public class ClientView
      *
      * @param event is necessary to get primary stage
      */
-    public void deleteAccountAction(Event event)
+    @FXML private void deleteAccountAction(Event event)
     throws Exception
     {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -139,16 +149,6 @@ public class ClientView
         {
             alert.hide();
         }
-    }
-    
-    public void setClientLogin(String clientLogin)
-    {
-        this.clientLogin = clientLogin;
-    }
-    
-    public void setModel(Model model)
-    {
-        this.model = model;
     }
     
     /**
@@ -178,7 +178,7 @@ public class ClientView
      *
      * @param event is necessary to get primary stage
      */
-    public void changeSceneTicketAction(Event event)
+    @FXML private void changeSceneTicketAction(Event event)
     throws Exception
     {
         ViewMethods.changeSceneTicketAction(event, this, this.clientLogin,
@@ -190,7 +190,7 @@ public class ClientView
      *
      * @param event is necessary to get primary stage
      */
-    public void changeSceneEventsAction(Event event)
+    @FXML private void changeSceneEventsAction(Event event)
     throws Exception
     {
         ViewMethods.changeSceneEventsAction(event, this, this.clientLogin,

@@ -77,12 +77,31 @@ public class EventsView
                 SelectionMode.MULTIPLE);
     }
     
+    public void setModel(Model model)
+    {
+        this.model = model;
+    }
+    
+    public void setClientLogin(String clientLogin)
+    {
+        this.clientLogin = clientLogin;
+    }
+    
+    /**
+     * Refreshes client events.
+     */
+    @FXML public void refreshClientEvents()
+    throws Exception
+    {
+        this.clientEventsTable.setItems(getClientEvents());
+    }
+    
     /**
      * Logs out.
      *
      * @param event is necessary to get primary stage
      */
-    public void logOutAction(Event event)
+    @FXML private void logOutAction(Event event)
     throws Exception
     {
         ViewMethods.logOutAction(event, this, this.clientLogin, this.model);
@@ -93,7 +112,7 @@ public class EventsView
      *
      * @param event is necessary to get primary stage
      */
-    public void changeSceneTicketAction(Event event)
+    @FXML private void changeSceneTicketAction(Event event)
     throws Exception
     {
         ViewMethods.changeSceneTicketAction(event, this, this.clientLogin,
@@ -105,21 +124,11 @@ public class EventsView
      *
      * @param event is necessary to get primary stage
      */
-    public void changeSceneClientAction(Event event)
+    @FXML private void changeSceneClientAction(Event event)
     throws Exception
     {
         ViewMethods.changeSceneClientAction(event, this, this.clientLogin,
                 this.model);
-    }
-    
-    public void setModel(Model model)
-    {
-        this.model = model;
-    }
-    
-    public void setClientLogin(String clientLogin)
-    {
-        this.clientLogin = clientLogin;
     }
     
     /**
@@ -151,20 +160,11 @@ public class EventsView
     }
     
     /**
-     * Refreshes client events.
-     */
-    public void refreshClientEvents()
-    throws Exception
-    {
-        this.clientEventsTable.setItems(getClientEvents());
-    }
-    
-    /**
      * Searches and shows searched events related to client order.
      *
      * @param event is necessary for recognize keyboard event
      */
-    public void searchEvents(Event event)
+    @FXML private void searchEvents(Event event)
     {
         String performer = this.performerField.getText();
         LinkedList<CulturalEventHasPerformerDB> eventHasPerformers = new
@@ -216,7 +216,7 @@ public class EventsView
     /**
      * Create new stage to buy tickets.
      */
-    public void buySelectedEventsAction()
+    @FXML private void buySelectedEventsAction()
     throws Exception
     {
         ObservableList<CulturalEventDB> selectedEvents = this.searchEventsTable
@@ -249,7 +249,7 @@ public class EventsView
     /**
      * @param event key pressed on the keyboard
      */
-    public void searchEnterAction(KeyEvent event)
+    @FXML private void searchEnterAction(KeyEvent event)
     {
         if (event.getCode().equals(KeyCode.ENTER))
         {
